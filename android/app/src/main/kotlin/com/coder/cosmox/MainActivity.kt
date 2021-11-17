@@ -1,0 +1,6 @@
+package com.coder.cosmox
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
