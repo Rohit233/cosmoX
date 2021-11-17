@@ -32,7 +32,10 @@ class _AstronomyPostsState extends State<AstronomyPosts> {
               return PostCard(astronomyPostModel: listAstronomyPost[i]);
             },
             separatorBuilder: (context,int i){
-              return Divider();
+              return Divider(
+                color: Colors.black,
+                thickness: 0.7,
+              );
             }, itemCount: listAstronomyPost.length);
         }
       ),
