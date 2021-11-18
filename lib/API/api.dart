@@ -1,4 +1,4 @@
-class Api{
-  static String astronomyPictureOfDayApi = 'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY';
-
+class Api {
+  static String astronomyPictureOfDayApi =
+      'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY';
 }
