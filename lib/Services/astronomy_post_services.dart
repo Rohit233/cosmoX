@@ -10,22 +10,39 @@ class AstronomyPostServices {
 
   Future<List<AstronomyPostModel>?> getPostWhileScrolling() async {
     List<AstronomyPostModel> astronomyPost = [];
-    String startDate = DateTimeUtils.getFormatedDateFromEpoch(
-        DateTimeUtils.getCurrentEpoch() - (86400000 * 5));
-    String endDate;
+    int startDate = DateTimeUtils.getCurrentEpoch() - (86400000 * 5);
+    String formatedStartDate = DateTimeUtils.getFormatedDateFromEpoch(startDate);
+    int endDate;
     if (lastFetchPostDate == -1) {
-      endDate = DateTimeUtils.getFormatedDateFromEpoch(
-          DateTimeUtils.getCurrentEpoch());
-       http.Response response = await http.get(Uri.parse(Api.astronomyPictureOfDayApi+'&start_date=$startDate&end_date=$endDate&thumbs=True'));
+      endDate = DateTimeUtils.getCurrentEpoch();
+      String formatedEndDate = DateTimeUtils.getFormatedDateFromEpoch(endDate);
+       http.Response response = await http.get(Uri.parse(Api.astronomyPictureOfDayApi+'&start_date=$formatedStartDate&end_date=$formatedEndDate&thumbs=True'));
        if(response.statusCode == 200){
        var jsonResponse = jsonDecode(response.body);
        for(var i in jsonResponse){
          astronomyPost.add(AstronomyPostModel().getAstronomyPostObject(i));
        }
-      return astronomyPost; 
+      lastFetchPostDate = startDate;
+      return List.from(astronomyPost.reversed); 
 
        }
 
+    }
+    else{
+      int startDate = lastFetchPostDate - (86400000 * 5);
+      String formatedStartDate = DateTimeUtils.getFormatedDateFromEpoch(startDate);
+      int endDate;
+      endDate = lastFetchPostDate -(86400000);
+      String formatedEndDate = DateTimeUtils.getFormatedDateFromEpoch(endDate);
+       http.Response response = await http.get(Uri.parse(Api.astronomyPictureOfDayApi+'&start_date=$formatedStartDate&end_date=$formatedEndDate&thumbs=True'));
+       if(response.statusCode == 200){
+       var jsonResponse = jsonDecode(response.body);
+       for(var i in jsonResponse){
+         astronomyPost.add(AstronomyPostModel().getAstronomyPostObject(i));
+       }
+      lastFetchPostDate = startDate; 
+      return List.from(astronomyPost.reversed); 
+       }
     }
     return null;
   }
