@@ -3,39 +3,82 @@ import 'package:cosmox/models/astronomy_post_model.dart';
 import 'package:cosmox/widgets/post_card.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 class AstronomyPosts extends StatefulWidget {
-  const AstronomyPosts({ Key? key }) : super(key: key);
+  const AstronomyPosts({Key? key}) : super(key: key);
 
   @override
   _AstronomyPostsState createState() => _AstronomyPostsState();
 }
 
 class _AstronomyPostsState extends State<AstronomyPosts> {
-  ValueNotifier<List<AstronomyPostModel>> listAstronomyPost = ValueNotifier([]); 
-  @override
-    void initState() {
-      AstronomyPostServices().getPostWhileScrolling().then((value){
-       listAstronomyPost.value = List.from(value!);
+  ValueNotifier<List<AstronomyPostModel>> listAstronomyPost = ValueNotifier([]);
+  ScrollController scrollController = ScrollController();
+  ValueNotifier<bool> isLoading = ValueNotifier(false);
+  fetch() async{
+    isLoading.value = true;
+   await AstronomyPostServices().getPostWhileScrolling().then((value) {
+      listAstronomyPost.value.addAll(value!);
+      listAstronomyPost.value = List.from(listAstronomyPost.value);
+    });
+    isLoading.value = false;
+  }
 
-      });
-      super.initState();
-    }
+  @override
+  void initState() {
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        if (scrollController.position.pixels != 0) {
+         if(!isLoading.value){
+           fetch();
+         } 
+          
+        }
+      }
+    });
+    fetch();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: ValueListenableBuilder(
-        valueListenable: listAstronomyPost,
-        builder: (context, List<AstronomyPostModel> listAstronomyPost,child) {
-          return ListView.separated(
-            itemBuilder: (context,int i){
-              return PostCard(astronomyPostModel: listAstronomyPost[i]);
-            },
-            separatorBuilder: (context,int i){
-              return Divider();
-            }, itemCount: listAstronomyPost.length);
-        }
-      ),
+          valueListenable: listAstronomyPost,
+          builder:
+              (context, List<AstronomyPostModel> listAstronomyPost, child) {
+            return listAstronomyPost.isEmpty && isLoading.value
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListView.separated(
+                    controller: scrollController,
+                    itemBuilder: (context, int i) {
+                      return Column(
+                        children: [
+                          PostCard(astronomyPostModel: listAstronomyPost[i]),
+                          ValueListenableBuilder(
+                            valueListenable: isLoading,
+                            builder: (context,bool isLoading,child){
+                              return isLoading && i == listAstronomyPost.length -1 ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              ) : Container();
+                            },
+                          )
+                        ],
+                      );
+                    },
+                    separatorBuilder: (context, int i) {
+                      return Divider(
+                                    color: Colors.black,
+                                    thickness: 0.7,
+                                  );
+                    },
+                    itemCount: listAstronomyPost.length);
+          }),
     );
   }
 }
