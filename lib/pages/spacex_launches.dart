@@ -1,3 +1,5 @@
+import 'package:cosmox/widgets/past_launches.dart';
+import 'package:cosmox/widgets/upcoming_launches.dart';
 import 'package:flutter/material.dart';
 class SpaceXLaunches extends StatefulWidget {
   const SpaceXLaunches({ Key? key }) : super(key: key);
@@ -6,11 +8,48 @@ class SpaceXLaunches extends StatefulWidget {
   _SpaceXLaunchesState createState() => _SpaceXLaunchesState();
 }
 
-class _SpaceXLaunchesState extends State<SpaceXLaunches> {
+class _SpaceXLaunchesState extends State<SpaceXLaunches> with TickerProviderStateMixin {
+  late TabController tabController;
+  @override
+    void initState() {
+      tabController = TabController(length: 2, vsync: this);
+      super.initState();
+    }
+
+ Widget tabs(){
+    return TabBar(
+      controller: tabController,
+      tabs: [
+        Tab(
+          child: Text('Upcoming launches'),
+        ),
+        Tab(
+          child: Text('Past launches'),
+        ),
+      ],
+    );
+  }
+
+  Widget tabView(){
+    return TabBarView(
+      controller: tabController,
+      children: [
+        UpcomingLaunches(),
+        PastLaunches(),
+
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      
+      child: Column(
+        children: [
+          tabs(),
+          Expanded(child: tabView())
+        ],
+      ),
     );
   }
 }

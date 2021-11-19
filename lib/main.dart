@@ -12,6 +12,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'CosmoX',
       theme: ThemeData(
+        tabBarTheme: TabBarTheme(
+          labelColor: Colors.black,
+          indicatorSize: TabBarIndicatorSize.label,
+          unselectedLabelColor: Colors.black38
+        ),
         bottomNavigationBarTheme:BottomNavigationBarThemeData(
           type: BottomNavigationBarType.shifting,
           selectedItemColor: Colors.black,
