@@ -1,4 +1,4 @@
-import 'package:cosmox/home.dart';
+import 'package:cosmox/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
             unselectedItemColor: Colors.white),
         primarySwatch: Colors.blue,
       ),
-      home: Home(),
+      home: SplashScreen(),
     );
   }
 }
