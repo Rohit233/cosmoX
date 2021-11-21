@@ -15,9 +15,9 @@ class _AstronomyPostsState extends State<AstronomyPosts> {
   ValueNotifier<List<AstronomyPostModel>> listAstronomyPost = ValueNotifier([]);
   ScrollController scrollController = ScrollController();
   ValueNotifier<bool> isLoading = ValueNotifier(false);
-  fetch() async{
+  fetch() async {
     isLoading.value = true;
-   await AstronomyPostServices().getPostWhileScrolling().then((value) {
+    await AstronomyPostServices().getPostWhileScrolling().then((value) {
       listAstronomyPost.value.addAll(value!);
       listAstronomyPost.value = List.from(listAstronomyPost.value);
     });
@@ -29,10 +29,9 @@ class _AstronomyPostsState extends State<AstronomyPosts> {
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
-         if(!isLoading.value){
-           fetch();
-         } 
-          
+          if (!isLoading.value) {
+            fetch();
+          }
         }
       }
     });
@@ -59,23 +58,23 @@ class _AstronomyPostsState extends State<AstronomyPosts> {
                           PostCard(astronomyPostModel: listAstronomyPost[i]),
                           ValueListenableBuilder(
                             valueListenable: isLoading,
-                            builder: (context,bool isLoading,child){
-                              return isLoading && i == listAstronomyPost.length -1 ? Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              ) : Container();
+                            builder: (context, bool isLoading, child) {
+                              return isLoading &&
+                                      i == listAstronomyPost.length - 1
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    )
+                                  : Container();
                             },
                           )
                         ],
                       );
                     },
                     separatorBuilder: (context, int i) {
-                      return Divider(
-                                    color: Colors.black,
-                                    thickness: 0.7,
-                                  );
+                      return Container();
                     },
                     itemCount: listAstronomyPost.length);
           }),
