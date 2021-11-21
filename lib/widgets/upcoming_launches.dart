@@ -1,5 +1,6 @@
 import 'package:cosmox/Services/spacex_launchesService.dart';
 import 'package:cosmox/models/spacex_launches_model.dart';
+import 'package:cosmox/utils/globalUtils.dart';
 import 'package:cosmox/widgets/launches_card_list.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,7 @@ class _UpcomingLaunchesState extends State<UpcomingLaunches>
         future: fetchUpcomingLaunches(),
         builder: (context, AsyncSnapshot<List<SpaceXLaunchesModel>?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: circularProgressIndicator);
           }
           return snapshot.data == null
               ? Container(

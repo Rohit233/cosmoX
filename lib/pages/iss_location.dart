@@ -54,7 +54,7 @@ class _IssLocationState extends State<IssLocation> {
   Widget build(BuildContext context) {
     return isLoading
         ? Center(
-            child: CircularProgressIndicator(),
+            child: circularProgressIndicator,
           )
         : Stack(
             children: [

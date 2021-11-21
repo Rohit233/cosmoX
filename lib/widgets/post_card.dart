@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cosmox/models/astronomy_post_model.dart';
+import 'package:cosmox/utils/DateTimeUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PostCard extends StatefulWidget {
   final AstronomyPostModel? astronomyPostModel;
@@ -15,7 +18,7 @@ class _PostCardState extends State<PostCard> {
   Widget build(BuildContext context) {
     return Container(
         child: Card(
-            color: Color.fromRGBO(0, 0, 0, 0.8),
+            color: Color.fromRGBO(0, 0, 0, 0.01),
             clipBehavior: Clip.antiAlias,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
@@ -25,15 +28,40 @@ class _PostCardState extends State<PostCard> {
                   children: [
                     Stack(
                       children: [
-                        Ink.image(
-                          image: NetworkImage(
-                              widget.astronomyPostModel!.url.toString()),
-                          child: InkWell(
-                            onTap: () {},
-                          ),
-                          height: 270,
-                          fit: BoxFit.cover,
-                        ),
+                        widget.astronomyPostModel!.mediaType ==
+                                AstronomyPostModel.IMAGE
+                            ? Ink.image(
+                                image: widget.astronomyPostModel!.hdUrl != null
+                                    ? CachedNetworkImageProvider(widget
+                                        .astronomyPostModel!.hdUrl
+                                        .toString())
+                                    : CachedNetworkImageProvider(widget
+                                        .astronomyPostModel!.url
+                                        .toString()),
+                                child: InkWell(
+                                  onTap: () {},
+                                ),
+                                height: 270,
+                                fit: BoxFit.cover,
+                              )
+                            : Container(
+                                child: YoutubePlayer(
+                                  controller: YoutubePlayerController(
+                                      initialVideoId:
+                                          YoutubePlayer.convertUrlToId(widget
+                                                  .astronomyPostModel!.url
+                                                  .toString())
+                                              .toString(),
+                                      flags: YoutubePlayerFlags(
+                                        autoPlay: false,
+                                        hideControls: false,
+                                        mute: false,
+                                        controlsVisibleAtStart: false,
+                                      )),
+                                  showVideoProgressIndicator: true,
+                                  progressIndicatorColor: Colors.redAccent,
+                                ),
+                              ),
                         Positioned(
                           bottom: 16,
                           right: 16,
@@ -49,9 +77,17 @@ class _PostCardState extends State<PostCard> {
                         )
                       ],
                     ),
-                    SizedBox(height: 8),
                     Padding(
-                        padding: EdgeInsets.all(16).copyWith(bottom: 0),
+                      padding: const EdgeInsets.only(top:8.0,left:8.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          widget.astronomyPostModel!.date ?? "",
+                        ),
+                      ),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.all(8).copyWith(bottom: 0),
                         child: buildText(
                           widget.astronomyPostModel!.explanation.toString(),
                         )),

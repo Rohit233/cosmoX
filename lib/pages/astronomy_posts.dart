@@ -1,5 +1,6 @@
 import 'package:cosmox/Services/astronomy_post_services.dart';
 import 'package:cosmox/models/astronomy_post_model.dart';
+import 'package:cosmox/utils/globalUtils.dart';
 import 'package:cosmox/widgets/post_card.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _AstronomyPostsState extends State<AstronomyPosts> {
               (context, List<AstronomyPostModel> listAstronomyPost, child) {
             return listAstronomyPost.isEmpty && isLoading.value
                 ? Center(
-                    child: CircularProgressIndicator(),
+                    child: circularProgressIndicator,
                   )
                 : ListView.separated(
                     controller: scrollController,
@@ -64,7 +65,7 @@ class _AstronomyPostsState extends State<AstronomyPosts> {
                                   ? Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Center(
-                                        child: CircularProgressIndicator(),
+                                        child: circularProgressIndicator,
                                       ),
                                     )
                                   : Container();
