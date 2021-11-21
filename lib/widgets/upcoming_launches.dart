@@ -20,23 +20,25 @@ class _UpcomingLaunchesState extends State<UpcomingLaunches>
   Widget build(BuildContext context) {
     super.build(context);
     return Container(
-        child: FutureBuilder(
-          future: fetchUpcomingLaunches(),
-          builder: (context,AsyncSnapshot<List<SpaceXLaunchesModel>?> snapshot){
-            if(snapshot.connectionState == ConnectionState.waiting){
-              return Center(child: CircularProgressIndicator());
-            }
-            return snapshot.data == null && snapshot.data!.isEmpty ? Container(
-              child: Center(child: Text('No launch data found')),
-            ) :  ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context,int i){
-                return LaunchesCard(spaceXLaunchesModel: snapshot.data![i]);
-              },
-            );
-          },
-        ) ,
-        );
+      child: FutureBuilder(
+        future: fetchUpcomingLaunches(),
+        builder: (context, AsyncSnapshot<List<SpaceXLaunchesModel>?> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          return snapshot.data == null
+              ? Container(
+                  child: Center(child: Text('No launch data found')),
+                )
+              : ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, int i) {
+                    return LaunchesCard(spaceXLaunchesModel: snapshot.data![i]);
+                  },
+                );
+        },
+      ),
+    );
   }
 
   @override
