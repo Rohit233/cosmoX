@@ -12,26 +12,22 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'CosmoX',
       theme: ThemeData(
+        brightness: Brightness.dark,
         tabBarTheme: TabBarTheme(
-          labelColor: Colors.black,
-          indicatorSize: TabBarIndicatorSize.label,
-          unselectedLabelColor: Colors.black38
-        ),
-        bottomNavigationBarTheme:BottomNavigationBarThemeData(
-          type: BottomNavigationBarType.shifting,
-          selectedItemColor: Colors.black,
-          selectedLabelStyle: TextStyle(
-              color: Colors.black,
-          ),
-          selectedIconTheme: IconThemeData(
-            color: Colors.blueAccent
-          ),  
-          unselectedItemColor: Colors.black38
-        ),
+            labelColor: Colors.white,
+            indicatorSize: TabBarIndicatorSize.label,
+            unselectedLabelColor: Colors.grey[300]),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            type: BottomNavigationBarType.shifting,
+            selectedItemColor: Colors.white,
+            selectedLabelStyle: TextStyle(
+              color: Colors.white,
+            ),
+            selectedIconTheme: IconThemeData(color: Colors.blueAccent),
+            unselectedItemColor: Colors.white),
         primarySwatch: Colors.blue,
       ),
       home: Home(),
     );
   }
 }
-
