@@ -23,10 +23,14 @@ class _ReportState extends State<Report> {
     return await ReportServices().getReport();
   }
 
-  @override
-  void initState() {
+ resetPaginationStatus(){
     ReportServices.limit = 50;
     ReportServices.start = 0;
+ }
+
+  @override
+  void initState() {
+    resetPaginationStatus();
     scrollController.addListener(() {
       if (BasicUtils.isEndOfFeed(scrollController)) {
         if (!isLoading.value) {
@@ -59,51 +63,64 @@ class _ReportState extends State<Report> {
               );
             }),
             Expanded(
-              child: FutureBuilder(
-                  future: fetchReport(),
-                  builder:
-                      (context, AsyncSnapshot<List<ReportModel>> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: circularProgressIndicator,
-                      );
-                    }
-                    return snapshot.data!.isEmpty
-                        ? Center(
-                            child: Text('No report found'),
-                          )
-                        : StatefulBuilder(builder: (context, state) {
-                            listState = state;
-                            listReport.addAll(snapshot.data!);
-                            return ListView.builder(
-                              controller: scrollController,
-                              itemCount: listReport.length,
-                              itemBuilder: (context, int i) {
-                                ReportModel report = listReport[i];
-                                return Column(
-                                  children: [
-                                    ReportCard(
-                                      reportModel: report,
-                                    ),
-                                    ValueListenableBuilder(
-                                      valueListenable: isLoading,
-                                      builder:
-                                          (context, bool isLoading, child) {
-                                        return i == listReport.length - 1 &&
-                                                isLoading
-                                            ? Center(
-                                                child:
-                                                    circularProgressIndicator,
-                                              )
-                                            : Container();
-                                      },
-                                    )
-                                  ],
-                                );
-                              },
-                            );
-                          });
-                  }),
+              child: RefreshIndicator(
+                onRefresh: ()async{
+                   isLoading.value = true;
+                   resetPaginationStatus();
+                   listReport = [];
+                   listState((){});
+                   listReport = await fetchReport(); 
+                   listState((){});
+                   isLoading.value = false;
+                },
+                child: FutureBuilder(
+                    future: fetchReport(),
+                    builder:
+                        (context, AsyncSnapshot<List<ReportModel>> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: circularProgressIndicator,
+                        );
+                      }
+                      listReport = snapshot.data ?? [];
+                      return listReport.isEmpty
+                          ? Center(
+                              child: Text('No report found'),
+                            )
+                          : StatefulBuilder(builder: (context, state) {
+                              listState = state;
+                              return listReport.isEmpty && isLoading.value ? Center(
+                                child: circularProgressIndicator,
+                              ) : ListView.builder(
+                                controller: scrollController,
+                                itemCount: listReport.length,
+                                itemBuilder: (context, int i) {
+                                  ReportModel report = listReport[i];
+                                  return Column(
+                                    children: [
+                                      ReportCard(
+                                        reportModel: report,
+                                      ),
+                                      ValueListenableBuilder(
+                                        valueListenable: isLoading,
+                                        builder:
+                                            (context, bool isLoading, child) {
+                                          return i == listReport.length - 1 &&
+                                                  isLoading
+                                              ? Center(
+                                                  child:
+                                                      circularProgressIndicator,
+                                                )
+                                              : Container();
+                                        },
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            });
+                    }),
+              ),
             ),
           ],
         ),

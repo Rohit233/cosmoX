@@ -16,17 +16,22 @@ class Article extends StatefulWidget {
 class _ArticleState extends State<Article> {
   ScrollController scrollController = ScrollController();
   ValueNotifier<bool> isLoading = ValueNotifier(false);
-  var listState,appBarState;
+  var listState, appBarState;
   bool isScrollingDown = false;
+  List<ArticleModel> listArticles = [];
 
   Future<List<ArticleModel>> fetchArticles() async {
     return await ArticleServices().getListArticle();
   }
 
-  @override
-  void initState() {
+  resetPaginationStatus(){
     ArticleServices.limit = 50;
     ArticleServices.start = 0;
+  }
+
+  @override
+  void initState() {
+    resetPaginationStatus();
     scrollController.addListener(() {
       if (BasicUtils.isEndOfFeed(scrollController)) {
         if (!isLoading.value) {
@@ -38,7 +43,7 @@ class _ArticleState extends State<Article> {
         }
       }
       appBarState(() {
-       isScrollingDown = BasicUtils.checkScrollingState(scrollController);
+        isScrollingDown = BasicUtils.checkScrollingState(scrollController);
       });
     });
 
@@ -50,50 +55,63 @@ class _ArticleState extends State<Article> {
     return SafeArea(
       child: Column(
         children: [
-          StatefulBuilder(
-            builder: (context, state) {
-              appBarState = state;
-              return AppBarWidget(title: 'Articles', isScrollingDown: isScrollingDown);
-            }
-          ),
+          StatefulBuilder(builder: (context, state) {
+            appBarState = state;
+            return AppBarWidget(
+                title: 'Articles', isScrollingDown: isScrollingDown);
+          }),
           Expanded(
-            child: FutureBuilder(
-                future: fetchArticles(),
-                builder: (context, AsyncSnapshot<List<ArticleModel>> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: circularProgressIndicator,
+            child: RefreshIndicator(
+              onRefresh: () async {
+                isLoading.value = true;
+                listArticles = [];
+                resetPaginationStatus();
+                listState(() {});
+                listArticles = await fetchArticles();
+                isLoading.value = false;
+                listState(() {});
+              },
+              child: FutureBuilder(
+                  future: fetchArticles(),
+                  builder:
+                      (context, AsyncSnapshot<List<ArticleModel>> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: circularProgressIndicator,
+                      );
+                    }
+                    listArticles = snapshot.data ?? [];
+                    return Container(
+                      child: StatefulBuilder(
+                        builder: (context, state) {
+                          listState = state;
+                          return listArticles.isEmpty && isLoading.value ? Center(
+                            child: circularProgressIndicator,
+                          ) : ListView.builder(
+                            controller: scrollController,
+                            itemCount: listArticles.length,
+                            itemBuilder: (context, int i) {
+                              return Column(
+                                children: [
+                                  ArticleCard(articleModel: listArticles[i]),
+                                  ValueListenableBuilder(
+                                    valueListenable: isLoading,
+                                    builder: (context, bool isLoading, child) {
+                                      return isLoading &&
+                                              i == listArticles.length - 1
+                                          ? circularProgressIndicator
+                                          : Container();
+                                    },
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
                     );
-                  }
-                  return Container(
-                    child: StatefulBuilder(
-                      builder: (context, state) {
-                        listState = state;
-                        List<ArticleModel> listArticle = snapshot.data ?? [];
-                        return ListView.builder(
-                          controller: scrollController,
-                          itemCount: listArticle.length,
-                          itemBuilder: (context, int i) {
-                            return Column(
-                              children: [
-                                ArticleCard(articleModel: listArticle[i]),
-                                ValueListenableBuilder(
-                                  valueListenable: isLoading,
-                                  builder: (context, bool isLoading, child) {
-                                    return isLoading &&
-                                            i == listArticle.length - 1
-                                        ? circularProgressIndicator
-                                        : Container();
-                                  },
-                                )
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  );
-                }),
+                  }),
+            ),
           ),
         ],
       ),

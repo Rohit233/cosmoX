@@ -16,6 +16,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             duration: Duration(milliseconds: 200),
             child: AppBar(
               centerTitle: true,
+              backgroundColor: Colors.blueAccent[400],
               title: Text(widget.title),
               shape: RoundedRectangleBorder(
                   borderRadius:

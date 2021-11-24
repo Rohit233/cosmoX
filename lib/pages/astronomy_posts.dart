@@ -53,46 +53,55 @@ class _AstronomyPostsState extends State<AstronomyPosts> {
           AppBarWidget(
               title: 'Astronomy post', isScrollingDown: isScrollingDown),
           Expanded(
-            child: Container(
-              child: ValueListenableBuilder(
-                  valueListenable: listAstronomyPost,
-                  builder: (context, List<AstronomyPostModel> listAstronomyPost,
-                      child) {
-                    return listAstronomyPost.isEmpty && isLoading.value
-                        ? Center(
-                            child: circularProgressIndicator,
-                          )
-                        : ListView.separated(
-                            controller: scrollController,
-                            itemBuilder: (context, int i) {
-                              return Column(
-                                children: [
-                                  PostCard(
-                                      astronomyPostModel: listAstronomyPost[i]),
-                                  ValueListenableBuilder(
-                                    valueListenable: isLoading,
-                                    builder: (context, bool isLoading, child) {
-                                      return isLoading &&
-                                              i == listAstronomyPost.length - 1
-                                          ? Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Center(
-                                                child:
-                                                    circularProgressIndicator,
-                                              ),
-                                            )
-                                          : Container();
-                                    },
-                                  )
-                                ],
-                              );
-                            },
-                            separatorBuilder: (context, int i) {
-                              return Container();
-                            },
-                            itemCount: listAstronomyPost.length);
-                  }),
+            child: RefreshIndicator(
+              onRefresh: ()async{
+                  isLoading.value = true;
+                  AstronomyPostServices.lastFetchPostDate = -1;
+                  listAstronomyPost.value = [];
+                  await fetch();
+                  isLoading.value = false; 
+              },
+              child: Container(
+                child: ValueListenableBuilder(
+                    valueListenable: listAstronomyPost,
+                    builder: (context, List<AstronomyPostModel> listAstronomyPost,
+                        child) {
+                      return listAstronomyPost.isEmpty && isLoading.value
+                          ? Center(
+                              child: circularProgressIndicator,
+                            )
+                          : ListView.separated(
+                              controller: scrollController,
+                              itemBuilder: (context, int i) {
+                                return Column(
+                                  children: [
+                                    PostCard(
+                                        astronomyPostModel: listAstronomyPost[i]),
+                                    ValueListenableBuilder(
+                                      valueListenable: isLoading,
+                                      builder: (context, bool isLoading, child) {
+                                        return isLoading &&
+                                                i == listAstronomyPost.length - 1
+                                            ? Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Center(
+                                                  child:
+                                                      circularProgressIndicator,
+                                                ),
+                                              )
+                                            : Container();
+                                      },
+                                    )
+                                  ],
+                                );
+                              },
+                              separatorBuilder: (context, int i) {
+                                return Container();
+                              },
+                              itemCount: listAstronomyPost.length);
+                    }),
+              ),
             ),
           ),
         ],

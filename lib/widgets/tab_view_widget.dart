@@ -33,7 +33,7 @@ class _TabViewWidgetState extends State<TabViewWidget>
       bottomNavigationBar: ValueListenableBuilder(
           valueListenable: currentTab,
           builder: (context, int current, child) {
-            if (current == 2) {
+            if (current == 3) {
               IssLocationService().getUsersLocation(context).then((value) {
                  if(value != null){
                    userLocationData = value;
