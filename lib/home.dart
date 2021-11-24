@@ -1,8 +1,8 @@
+import 'package:cosmox/pages/article.dart';
 import 'package:cosmox/pages/astronomy_posts.dart';
 import 'package:cosmox/pages/iss_location.dart';
 import 'package:cosmox/pages/spacex_launches.dart';
 import 'package:cosmox/utils/IconUtils.dart';
-import 'package:cosmox/utils/globalUtils.dart';
 import 'package:cosmox/widgets/tab_view_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -18,15 +18,19 @@ class _HomeState extends State<Home> {
  List<BottomNavigationBarItem> allTabs(){
     return[
       BottomNavigationBarItem(
-        icon: Icon(IconUtils.astronomyPostIcon),
+        icon: Icon(IconUtils.astronomyPostIcon,size:28,),
         label: 'Astronomy'
       ),
       BottomNavigationBarItem(
-        icon: Icon(IconUtils.launchesIcon),
+        icon: Icon(Icons.article_outlined,size:28,),
+        label: 'Articles'
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(IconUtils.launchesIcon,size:28,),
         label: 'SpaceX launches'
       ),
       BottomNavigationBarItem(
-        icon: Icon(IconUtils.issIcon),
+        icon: Icon(IconUtils.issIcon,size:28),
         label: 'ISS'
       )
     ];
@@ -34,6 +38,7 @@ class _HomeState extends State<Home> {
   List<Widget> tabsContent(){
     return [
       AstronomyPosts(),
+      Article(),
       SpaceXLaunches(),
       IssLocation()
     ];

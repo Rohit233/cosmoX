@@ -2,7 +2,10 @@ import 'dart:async';
 
 import 'package:cosmox/Services/iss_location_services.dart';
 import 'package:cosmox/models/iss_location_model.dart';
+import 'package:cosmox/pages/report.dart';
+import 'package:cosmox/utils/IconUtils.dart';
 import 'package:cosmox/utils/globalUtils.dart';
+import 'package:cosmox/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -40,7 +43,7 @@ class _IssLocationState extends State<IssLocation> {
       setState(() {});
       timer = Timer.periodic(Duration(seconds: 5), (timer) {
         issLocationService.getLocationIss().then((value) {
-          if (currentTab.value == 2) {
+          if (currentTab.value == 3) {
             issLocationModel = value!;
             setState(() {});
           }
@@ -52,7 +55,8 @@ class _IssLocationState extends State<IssLocation> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
+    return Scaffold(
+      body:isLoading
         ? Center(
             child: circularProgressIndicator,
           )
@@ -84,38 +88,62 @@ class _IssLocationState extends State<IssLocation> {
                           ),
                         ),
                       ),
-                     userLocationData.latitude != null && userLocationData.longitude != null ? Marker(
-                        width: 80.0,
-                        height: 80.0,
-                        point: LatLng(userLocationData.latitude!,userLocationData.longitude!),
-                        builder: (ctx) => Container(
-                          child: Image(
-                            image: AssetImage('assets/images/location.png'),
-                          ),
-                        ),
-                      ) : Marker(point: LatLng(-51.0,54), builder: (ctx)=> Container()),
+                      userLocationData.latitude != null &&
+                              userLocationData.longitude != null
+                          ? Marker(
+                              width: 80.0,
+                              height: 80.0,
+                              point: LatLng(userLocationData.latitude!,
+                                  userLocationData.longitude!),
+                              builder: (ctx) => Container(
+                                child: Image(
+                                  image:
+                                      AssetImage('assets/images/location.png'),
+                                ),
+                              ),
+                            )
+                          : Marker(
+                              point: LatLng(-51.0, 54),
+                              builder: (ctx) => Container()),
                     ],
                   ),
                 ],
               ),
               Align(
-                alignment: Alignment.bottomRight,
-                child: IconButton(
-                    icon: Icon(Icons.location_searching),
-                    onPressed: () {
-                      IssLocationService()
-                          .getUsersLocation(context)
-                          .then((value) {
-                        if (value != null) {
-                          mapController.move(
-                              LatLng(value.latitude!, value.longitude!), 5);
-                          userLocationData = value;    
-                          setState(() {});
-                        }
-                      });
-                    }),
+                alignment: Alignment.topRight,
+                child: Column(
+                  children: [
+                    IconButton(
+                      iconSize: 32,
+                        color: Colors.black,
+                        icon: Icon(Icons.location_searching),
+                        onPressed: () {
+                          IssLocationService()
+                              .getUsersLocation(context)
+                              .then((value) {
+                            if (value != null) {
+                              mapController.move(
+                                  LatLng(value.latitude!, value.longitude!), 5);
+                              userLocationData = value;
+                              setState(() {});
+                            }
+                          });
+                        }),
+                    IconButton(icon: Icon(IconUtils.reportIcon),
+                     iconSize: 32,
+                     onPressed: (){
+                       Navigator.push(context, MaterialPageRoute(builder: (context){
+                          return Report();
+                       }));
+                     },
+                     color: Colors.black,
+                     )
+                  ],
+                ),
               )
             ],
-          );
+          ),
+    );
+    
   }
 }
