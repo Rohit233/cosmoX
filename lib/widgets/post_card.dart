@@ -16,13 +16,16 @@ class _PostCardState extends State<PostCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
         child: Card(
             color: Color.fromRGBO(0, 0, 0, 0.01),
             clipBehavior: Clip.antiAlias,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
             child: Padding(
-                padding: EdgeInsets.all(12),
+                padding:
+                    EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 0),
                 child: Column(
                   children: [
                     Stack(
@@ -77,7 +80,7 @@ class _PostCardState extends State<PostCard> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top:8.0,left:8.0),
+                      padding: const EdgeInsets.only(top: 8.0, left: 8.0),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -102,7 +105,9 @@ class _PostCardState extends State<PostCard> {
                       ],
                     )
                   ],
-                ))));
+                ))),
+      ),
+    );
   }
 
   Widget buildText(String text) {
