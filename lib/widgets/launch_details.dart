@@ -33,7 +33,7 @@ class _LauchDetailState extends State<LauchDetail> {
               height: 20,
               child: Center(
                 child: Text(
-                    widget.spaceXLaunchesModel.dateInUnix.toString() ?? ""),
+                    widget.spaceXLaunchesModel.dateInUnix.toString()),
               ),
             ),
           ),
