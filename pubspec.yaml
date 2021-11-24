@@ -35,6 +35,10 @@ dependencies:
   flutter_map:
   location: ^4.3.0
   app_settings: ^4.1.1
+  lottie: ^1.2.1
+  simple_url_preview: ^3.0.1
+  url_launcher: ^6.0.10
+  pull_to_refresh: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -54,6 +58,7 @@ flutter:
   assets:
     - assets/images/ISS.png
     - assets/images/location.png
+    - assets/animations/splash_screen.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -77,6 +82,9 @@ flutter:
     - family: ASTRONOMY_POST
       fonts:
         - asset: assets/icons/astronomyPosts.ttf
+    - family: REPORT
+      fonts:
+        - asset: assets/icons/report.ttf
   
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
