@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cosmox/models/astronomy_post_model.dart';
-import 'package:cosmox/utils/DateTimeUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -112,7 +111,8 @@ class _PostCardState extends State<PostCard> {
     return Text(text,
         maxLines: maxLines,
         overflow: overflow,
-        style: TextStyle(fontSize: 18, color: Colors.white));
+        textAlign: TextAlign.justify,
+        style: TextStyle(fontSize: 16, color: Colors.white));
   }
 }
  

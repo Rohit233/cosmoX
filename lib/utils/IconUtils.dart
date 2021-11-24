@@ -21,9 +21,11 @@ class IconUtils {
   static const issIconFamily = 'ISS';
   static const launchesIconFamily = 'LAUNCHES';
   static const astronomyPostIconFamily = 'ASTRONOMY_POST';
+  static const reportIconFamily = 'REPORT';
   static const String? _kFontPkg = null;
 
   static const IconData issIcon = IconData(0xe804, fontFamily: issIconFamily, fontPackage: _kFontPkg);
   static const IconData launchesIcon = IconData(0xe805, fontFamily: launchesIconFamily, fontPackage: _kFontPkg);
     static const IconData astronomyPostIcon = IconData(0xe806, fontFamily: astronomyPostIconFamily, fontPackage: _kFontPkg);
+    static const IconData reportIcon = IconData(0xe807, fontFamily: reportIconFamily, fontPackage: _kFontPkg);
 }
