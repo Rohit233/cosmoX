@@ -2,6 +2,8 @@ import 'package:cosmox/models/spacex_launches_model.dart';
 import 'package:cosmox/utils/DateTimeUtils.dart';
 import 'package:flutter/material.dart';
 
+import 'package:cosmox/widgets/launch_details.dart';
+
 class LaunchesCard extends StatefulWidget {
   final SpaceXLaunchesModel spaceXLaunchesModel;
   const LaunchesCard({Key? key, required this.spaceXLaunchesModel})
@@ -15,26 +17,29 @@ class _LaunchesCardState extends State<LaunchesCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: InkWell(
-        onTap: () {},
-        child: (ListTile(
-          leading: Container(
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.black)),
-            child: CircleAvatar(
-              backgroundColor: Colors.white,
-              maxRadius: 23,
-              foregroundImage: widget.spaceXLaunchesModel.smallIcon == null
-                  ? null
-                  : NetworkImage(widget.spaceXLaunchesModel.smallIcon!),
-            ),
+      child: (ListTile(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return LauchDetail(
+              spaceXLaunchesModel: widget.spaceXLaunchesModel,
+            );
+          }));
+        },
+        leading: Container(
+          decoration: BoxDecoration(
+              shape: BoxShape.circle, border: Border.all(color: Colors.black)),
+          child: CircleAvatar(
+            backgroundColor: Colors.white,
+            maxRadius: 23,
+            foregroundImage: widget.spaceXLaunchesModel.smallIcon == null
+                ? null
+                : NetworkImage(widget.spaceXLaunchesModel.smallIcon!),
           ),
-          title: Text(widget.spaceXLaunchesModel.name ?? ""),
-          subtitle: Text(DateTimeUtils.getFormatedDateTimeFromEpoch(
-              (widget.spaceXLaunchesModel.dateInUnix! * 1000))),
-        )),
-      ),
+        ),
+        title: Text(widget.spaceXLaunchesModel.name ?? ""),
+        subtitle: Text(DateTimeUtils.getFormatedDateTimeFromEpoch(
+            (widget.spaceXLaunchesModel.dateInUnix! * 1000))),
+      )),
     );
   }
 }
