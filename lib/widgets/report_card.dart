@@ -13,6 +13,7 @@ class ReportCard extends StatefulWidget {
 
 class _ReportCardState extends State<ReportCard> {
   bool isReadMore = false;
+    bool isErrorImage = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,8 +32,13 @@ class _ReportCardState extends State<ReportCard> {
                     children: [
                       Stack(
                         children: [
-                          Ink.image(
-                            image: CachedNetworkImageProvider(
+                          StatefulBuilder(builder: (context,state){
+                            return Ink.image(
+                            onImageError: (context,onImageError){
+                                  isErrorImage = true;
+                                  state((){});
+                              },
+                            image: isErrorImage ? AssetImage('assets/images/ISS.png') as ImageProvider : CachedNetworkImageProvider(
                                 widget.reportModel.imageUrl.toString()),
                             child: InkWell(
                               onTap: () {
@@ -41,7 +47,8 @@ class _ReportCardState extends State<ReportCard> {
                             ),
                             height: 270,
                             fit: BoxFit.cover,
-                          ),
+                          );
+                          }),
                           Positioned(
                             bottom: 16,
                             right: 16,

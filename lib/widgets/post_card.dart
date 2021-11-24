@@ -13,6 +13,7 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   bool isReadMore = false;
+  bool isErrorImage = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,14 +31,19 @@ class _PostCardState extends State<PostCard> {
                   children: [
                     Stack(
                       children: [
-                        widget.astronomyPostModel!.mediaType ==
-                                AstronomyPostModel.IMAGE
+                        StatefulBuilder(builder: (context,state){
+                          return  widget.astronomyPostModel!.mediaType ==
+                            AstronomyPostModel.IMAGE
                             ? Ink.image(
+                              onImageError: (context,onImageError){
+                                  isErrorImage = true;
+                                  state((){});
+                              },
                                 image: widget.astronomyPostModel!.hdUrl != null
-                                    ? CachedNetworkImageProvider(widget
+                                    ? isErrorImage ? AssetImage('assets/images/ISS.png') as ImageProvider : CachedNetworkImageProvider(widget
                                         .astronomyPostModel!.hdUrl
                                         .toString())
-                                    : CachedNetworkImageProvider(widget
+                                    : isErrorImage ? AssetImage('assets/images/ISS.png') as ImageProvider :  CachedNetworkImageProvider(widget
                                         .astronomyPostModel!.url
                                         .toString()),
                                 child: InkWell(
@@ -63,7 +69,9 @@ class _PostCardState extends State<PostCard> {
                                   showVideoProgressIndicator: true,
                                   progressIndicatorColor: Colors.redAccent,
                                 ),
-                              ),
+                              );
+                        }),
+                       
                         Positioned(
                           bottom: 16,
                           right: 16,
