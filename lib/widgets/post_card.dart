@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cosmox/models/astronomy_post_model.dart';
+import 'package:cosmox/widgets/photo_view.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -47,7 +48,11 @@ class _PostCardState extends State<PostCard> {
                                         .astronomyPostModel!.url
                                         .toString()),
                                 child: InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                                        return PhotoViewWidget(imageUrl: widget.astronomyPostModel!.hdUrl ?? widget.astronomyPostModel!.url?? "");
+                                    }));
+                                  },
                                 ),
                                 height: 270,
                                 fit: BoxFit.cover,
