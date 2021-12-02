@@ -13,6 +13,7 @@ class ArticleCard extends StatefulWidget {
 }
 
 class _ArticleCardState extends State<ArticleCard> {
+  Color myHexColor = Color(0x00000000);
   bool isVisible = true;
   bool isReadMore = false;
   Widget buildText(String text) {
@@ -35,7 +36,7 @@ class _ArticleCardState extends State<ArticleCard> {
         BasicUtils.openUrl(widget.articleModel.url);
       },
       child: Card(
-          color: Color.fromRGBO(0, 0, 0, 0.3),
+          color: myHexColor,
           clipBehavior: Clip.antiAlias,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),

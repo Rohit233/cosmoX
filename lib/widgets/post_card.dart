@@ -17,7 +17,7 @@ class _PostCardState extends State<PostCard> {
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
         child: Card(
             color: Color.fromRGBO(0, 0, 0, 0.01),
             clipBehavior: Clip.antiAlias,
