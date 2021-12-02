@@ -32,8 +32,7 @@ class _LauchDetailState extends State<LauchDetail> {
             child: SizedBox(
               height: 20,
               child: Center(
-                child: Text(
-                    widget.spaceXLaunchesModel.dateInUnix.toString() ?? ""),
+                child: Text(widget.spaceXLaunchesModel.dateInUnix.toString()),
               ),
             ),
           ),
