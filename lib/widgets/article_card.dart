@@ -13,9 +13,13 @@ class ArticleCard extends StatefulWidget {
 }
 
 class _ArticleCardState extends State<ArticleCard> {
+  Color myHexColor = Color(0x00000000);
+  bool isVisible = true;
   bool isReadMore = false;
   bool isErrorImage = false;
   Widget buildText(String text) {
+    final numLines = '\n'.allMatches(text).length + 1;
+    // isVisible = (numLines <= 5 ? false : true);
     final maxLines = isReadMore ? null : 5;
     final overflow = isReadMore ? TextOverflow.visible : TextOverflow.ellipsis;
     return Text(text,
@@ -33,10 +37,11 @@ class _ArticleCardState extends State<ArticleCard> {
         BasicUtils.openUrl(widget.articleModel.url);
       },
       child: Card(
-          color: Color.fromRGBO(0, 0, 0, 0.01),
+          color: myHexColor,
           clipBehavior: Clip.antiAlias,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+              side: BorderSide(width: 2, color: Colors.white30)),
           child: Padding(
               padding: EdgeInsets.all(12),
               child: Column(
@@ -166,10 +171,13 @@ class _ArticleCardState extends State<ArticleCard> {
                   ButtonBar(
                     alignment: MainAxisAlignment.end,
                     children: [
-                      TextButton(
-                        child: Text(isReadMore ? 'Read Less' : 'Read More'),
-                        onPressed: () =>
-                            setState(() => isReadMore = !isReadMore),
+                      Visibility(
+                        visible: isVisible,
+                        child: TextButton(
+                          child: Text(isReadMore ? 'Read Less' : 'Read More'),
+                          onPressed: () =>
+                              setState(() => isReadMore = !isReadMore),
+                        ),
                       )
                     ],
                   )
