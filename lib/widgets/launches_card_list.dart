@@ -1,4 +1,5 @@
 import 'package:cosmox/models/spacex_launches_model.dart';
+import 'package:cosmox/utils/BasicUtils.dart';
 import 'package:cosmox/utils/DateTimeUtils.dart';
 import 'package:flutter/material.dart';
 
@@ -19,11 +20,9 @@ class _LaunchesCardState extends State<LaunchesCard> {
     return Container(
       child: (ListTile(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return LauchDetail(
-              spaceXLaunchesModel: widget.spaceXLaunchesModel,
-            );
-          }));
+          BasicUtils.openBottomSheet(context, (scrollController){
+             return LauchDetail(spaceXLaunchesModel: widget.spaceXLaunchesModel);
+          }, null);
         },
         leading: Container(
           decoration: BoxDecoration(
