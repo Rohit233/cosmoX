@@ -8,7 +8,7 @@ class PayloadModel{
   late double? _apoapsisKm;
   late double? _inclinationDeg;
   late String? _referenceSystem;
-  late double? _massKg;
+  late int? _massKg;
   late String? _orbit;
   late List? _customers = [];
   late List? _nationalities = [];
@@ -49,9 +49,9 @@ class PayloadModel{
 
  set referenceSystem(String? referenceSystem) => this._referenceSystem = referenceSystem;
 
- double? get massKg => this._massKg;
+ int? get massKg => this._massKg;
 
- set massKg(double? massKg) => this._massKg = massKg;
+ set massKg(int? massKg) => this._massKg = massKg;
 
  String? get orbit => this._orbit;
 
@@ -72,19 +72,33 @@ class PayloadModel{
  PayloadModel getPayloadModelObject(data){
    PayloadModel payloadModel = PayloadModel();
    payloadModel.id = data['id'];
+   print("id:" +payloadModel.id.toString());
    payloadModel.periapsisKm = data['periapsis_km'];
+   print("periapsisKm:"+payloadModel.periapsisKm.toString());
    payloadModel.apoapsisKm = data['apoapsis_km'];
+   print('apoapsisKm:'+payloadModel.apoapsisKm.toString());
    payloadModel.inclinationDeg = data['inclination_deg'];
+   print('Inclination'+data['inclination_deg'].toString());
    payloadModel.lifespanYears = data['lifespan_years'];
+   print('LifespanYears:'+payloadModel.lifespanYears.toString());
    payloadModel.massKg = data['mass_kg'];
+   print('Mass kg:'+payloadModel.massKg.toString());
    payloadModel.orbit = data['orbit'];
+   print('Orbit'+payloadModel.orbit.toString());
    payloadModel.referenceSystem = data['reference_system'];
+   print('ReferenceSystem:'+payloadModel.referenceSystem.toString());
    payloadModel.manufacturers = data['manufacturers'];
+   print('Manufacturers:'+payloadModel.manufacturers.toString());
    payloadModel.nationalities = data['nationalities'];
+   print('Nationalities:'+payloadModel.nationalities.toString());
    payloadModel.customers = data['customers'];
+   print('Customers:'+payloadModel.customers.toString());
    payloadModel.reused = data['reused'];
+   print('Reused:'+payloadModel.reused.toString());
    payloadModel.type = data['type'];
+   print('type:'+payloadModel.type.toString());
    payloadModel.name = data['name'];
+   print('Name:'+payloadModel.name.toString());
    return payloadModel;
 
  }

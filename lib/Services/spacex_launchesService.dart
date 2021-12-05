@@ -82,4 +82,14 @@ class SpaceXLaunchesService {
     
   }
 
+  Future<List<PayloadModel>> getListPayloads(List? payloadsId)async{
+    List<PayloadModel> listPayloads = [];
+    
+    for(var payloadId in payloadsId!){
+      listPayloads.add(await getPayloadById(payloadId));
+    }
+
+    return listPayloads;
+  }
+
 }
