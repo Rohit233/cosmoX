@@ -78,9 +78,11 @@ class _ReportState extends State<Report> {
                     builder:
                         (context, AsyncSnapshot<List<ReportModel>> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                          child: circularProgressIndicator,
-                        );
+                        return ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context,int i){
+                              return BasicUtils.loadingCard(context);
+                            });
                       }
                       listReport = snapshot.data ?? [];
                       return listReport.isEmpty
@@ -89,9 +91,11 @@ class _ReportState extends State<Report> {
                             )
                           : StatefulBuilder(builder: (context, state) {
                               listState = state;
-                              return listReport.isEmpty && isLoading.value ? Center(
-                                child: circularProgressIndicator,
-                              ) : ListView.builder(
+                              return listReport.isEmpty && isLoading.value ? ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context,int i){
+                              return BasicUtils.loadingCard(context);
+                            }) : ListView.builder(
                                 controller: scrollController,
                                 itemCount: listReport.length,
                                 itemBuilder: (context, int i) {
