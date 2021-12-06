@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cosmox/models/astronomy_post_model.dart';
+import 'package:cosmox/widgets/photo_view.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -13,11 +14,12 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   bool isReadMore = false;
+  bool isErrorImage = false;
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
         child: Card(
             color: Color.fromRGBO(0, 0, 0, 0.01),
             clipBehavior: Clip.antiAlias,
@@ -30,18 +32,27 @@ class _PostCardState extends State<PostCard> {
                   children: [
                     Stack(
                       children: [
-                        widget.astronomyPostModel!.mediaType ==
-                                AstronomyPostModel.IMAGE
+                        StatefulBuilder(builder: (context,state){
+                          return  widget.astronomyPostModel!.mediaType ==
+                            AstronomyPostModel.IMAGE
                             ? Ink.image(
+                              onImageError: (context,onImageError){
+                                  isErrorImage = true;
+                                  state((){});
+                              },
                                 image: widget.astronomyPostModel!.hdUrl != null
-                                    ? CachedNetworkImageProvider(widget
+                                    ? isErrorImage ? AssetImage('assets/images/ISS.png') as ImageProvider : CachedNetworkImageProvider(widget
                                         .astronomyPostModel!.hdUrl
                                         .toString())
-                                    : CachedNetworkImageProvider(widget
+                                    : isErrorImage ? AssetImage('assets/images/ISS.png') as ImageProvider :  CachedNetworkImageProvider(widget
                                         .astronomyPostModel!.url
                                         .toString()),
                                 child: InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                                        return PhotoViewWidget(imageUrl: widget.astronomyPostModel!.hdUrl ?? widget.astronomyPostModel!.url?? "");
+                                    }));
+                                  },
                                 ),
                                 height: 270,
                                 fit: BoxFit.cover,
@@ -63,7 +74,9 @@ class _PostCardState extends State<PostCard> {
                                   showVideoProgressIndicator: true,
                                   progressIndicatorColor: Colors.redAccent,
                                 ),
-                              ),
+                              );
+                        }),
+                       
                         Positioned(
                           bottom: 16,
                           right: 16,

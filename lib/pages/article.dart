@@ -76,18 +76,22 @@ class _ArticleState extends State<Article> {
                   builder:
                       (context, AsyncSnapshot<List<ArticleModel>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: circularProgressIndicator,
-                      );
+                      return ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context,int i){
+                              return BasicUtils.loadingCard(context);
+                            });
                     }
                     listArticles = snapshot.data ?? [];
                     return Container(
                       child: StatefulBuilder(
                         builder: (context, state) {
                           listState = state;
-                          return listArticles.isEmpty && isLoading.value ? Center(
-                            child: circularProgressIndicator,
-                          ) : ListView.builder(
+                          return listArticles.isEmpty && isLoading.value ? ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context,int i){
+                              return BasicUtils.loadingCard(context);
+                            }) : ListView.builder(
                             controller: scrollController,
                             itemCount: listArticles.length,
                             itemBuilder: (context, int i) {
