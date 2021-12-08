@@ -1,3 +1,4 @@
+import 'package:cosmox/widgets/launch_timer.dart';
 import 'package:cosmox/widgets/past_launches.dart';
 import 'package:cosmox/widgets/upcoming_launches.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +47,7 @@ class _SpaceXLaunchesState extends State<SpaceXLaunches> with TickerProviderStat
     return Container(
       child: Column(
         children: [
+          LaunchTimer(),
           tabs(),
           Expanded(child: tabView())
         ],

@@ -9,6 +9,7 @@ import 'package:cosmox/utils/BasicUtils.dart';
 import 'package:cosmox/utils/DateTimeUtils.dart';
 import 'package:cosmox/widgets/autoPhotoScroll.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 
 class LauchDetail extends StatefulWidget {
@@ -32,20 +33,24 @@ class _LauchDetailState extends State<LauchDetail> {
             floating: false,
             expandedHeight: 160.0,
             flexibleSpace: FutureBuilder(
-              future: SpaceXLaunchesService().getRocketById(widget.spaceXLaunchesModel.rocket!),
-              builder: (BuildContext context, AsyncSnapshot<RocketModel> snapshot) {
-                if(snapshot.connectionState == ConnectionState.waiting){
-                  return BasicUtils.loadingShimmer(width: double.infinity, height: 150);
-                }
-                return FlexibleSpaceBar(
-                  title: Text(widget.spaceXLaunchesModel.name ?? ""),
-                  background: snapshot.data!.flickrImages.isEmpty ? Center(
-                    child: Text("Photos not available"),
-                  ) : AutoPhotoScroll(listPhoto: snapshot.data!.flickrImages)
-                   
-                );
-              }
-            ),
+                future: SpaceXLaunchesService()
+                    .getRocketById(widget.spaceXLaunchesModel.rocket!),
+                builder: (BuildContext context,
+                    AsyncSnapshot<RocketModel> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return BasicUtils.loadingShimmer(
+                        width: double.infinity, height: 150);
+                  }
+                  return FlexibleSpaceBar(
+                      centerTitle: true,
+                      title: Text(widget.spaceXLaunchesModel.name ?? ""),
+                      background: snapshot.data!.flickrImages.isEmpty
+                          ? Center(
+                              child: Text("Photos not available"),
+                            )
+                          : AutoPhotoScroll(
+                              listPhoto: snapshot.data!.flickrImages));
+                }),
           ),
           SliverSafeArea(
               top: false,
@@ -71,72 +76,127 @@ class _LauchDetailState extends State<LauchDetail> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
               side: BorderSide(width: 2, color: Colors.white30)),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: CircleAvatar(
-                  foregroundImage: CachedNetworkImageProvider(
-                      widget.spaceXLaunchesModel.smallIcon ?? ''),
-                ),
-                title: Text(
-                  widget.spaceXLaunchesModel.name ?? "",
-                  textAlign: TextAlign.justify,
-                ),
-                subtitle: Column(
+          child: InkWell(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            onTap: widget.spaceXLaunchesModel.wikipedia != null
+                ? () {
+                    BasicUtils.openUrl(widget.spaceXLaunchesModel.wikipedia!);
+                  }
+                : null,
+            child: Stack(
+              children: [
+                Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Row(
-                      children: [
-                        Icon(Icons.calendar_today),
-                        Padding(padding: EdgeInsets.only(left: 5)),
-                        Text(DateTimeUtils.getFormatedDateFromEpoch(
-                            widget.spaceXLaunchesModel.dateInUnix! * 1000))
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Row(
+                    ListTile(
+                      leading: CircleAvatar(
+                        foregroundImage: CachedNetworkImageProvider(
+                            widget.spaceXLaunchesModel.smallIcon ?? ''),
+                      ),
+                      title: Text(
+                        widget.spaceXLaunchesModel.name ?? "",
+                        textAlign: TextAlign.justify,
+                      ),
+                      subtitle: Column(
                         children: [
-                          Icon(Icons.location_on),
-                          FutureBuilder<LaunchPadModel>(
-                              future: SpaceXLaunchesService().getLaunchPadById(
-                                  widget.spaceXLaunchesModel.launchePad!),
-                              builder: (context,
-                                  AsyncSnapshot<LaunchPadModel> snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return SizedBox(
-                                    width: 80,
-                                    height: 15,
-                                    child: Shimmer.fromColors(
-                                      baseColor: Colors.black38,
-                                      highlightColor: Colors.grey,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(4.0)),
-                                        width: double.infinity,
-                                        height: 50,
-                                      ),
-                                    ),
-                                  );
-                                }
-                                return Text(snapshot.data!.locality ??
-                                    'Location not available');
-                              })
+                          Row(
+                            children: [
+                              Icon(Icons.calendar_today),
+                              Padding(padding: EdgeInsets.only(left: 5)),
+                              Text(DateTimeUtils.getFormatedDateFromEpoch(
+                                  widget.spaceXLaunchesModel.dateInUnix! *
+                                      1000))
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Row(
+                              children: [
+                                Icon(Icons.location_on),
+                                FutureBuilder<LaunchPadModel>(
+                                    future: SpaceXLaunchesService()
+                                        .getLaunchPadById(widget
+                                            .spaceXLaunchesModel.launchePad!),
+                                    builder: (context,
+                                        AsyncSnapshot<LaunchPadModel>
+                                            snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return SizedBox(
+                                          width: 80,
+                                          height: 15,
+                                          child: Shimmer.fromColors(
+                                            baseColor: Colors.black38,
+                                            highlightColor: Colors.grey,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0)),
+                                              width: double.infinity,
+                                              height: 50,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      return Text(snapshot.data!.locality ??
+                                          'Location not available');
+                                    })
+                              ],
+                            ),
+                          )
                         ],
                       ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(widget.spaceXLaunchesModel.details ??
+                          'No details found'),
                     )
                   ],
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                    widget.spaceXLaunchesModel.details ?? 'No details found'),
-              )
-            ],
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      widget.spaceXLaunchesModel.webcast == null
+                          ? Container()
+                          : IconButton(
+                            iconSize: 21,
+                            onPressed: () {
+                              BasicUtils.openUrl(
+                                  widget.spaceXLaunchesModel.webcast!);
+                            },
+                            icon: FaIcon(
+                              FontAwesomeIcons.youtube,
+                              color: Colors.red,
+                            ),
+                          ),
+                    widget.spaceXLaunchesModel.article == null ? Container() : IconButton(
+                       icon: FaIcon(FontAwesomeIcons.blogger),
+                       onPressed: (){
+                          if(widget.spaceXLaunchesModel.article != null){
+                             BasicUtils.openUrl(widget.spaceXLaunchesModel.article!);
+                          }
+                       }),
+
+                     widget.spaceXLaunchesModel.reddit!.campaign == null 
+                     && widget.spaceXLaunchesModel.reddit!.launch == null 
+                     && widget.spaceXLaunchesModel.reddit!.recovery == null 
+                     ? Container()
+                      :  IconButton(
+                          iconSize: 21,
+                          icon: FaIcon(FontAwesomeIcons.redditSquare,color:Colors.orange),
+                          onPressed: () {
+                            SpaceXLaunchesService.alertDialog(context,widget.spaceXLaunchesModel);
+                          })
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -153,11 +213,14 @@ class _LauchDetailState extends State<LauchDetail> {
                 side: BorderSide(width: 2, color: Colors.white30)),
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Rocket",
-                    style: TextStyle(fontSize: 20),
+                Padding(
+                  padding: const EdgeInsets.only(top:8.0,bottom:5.0),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Rocket",
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
                 ),
                 FutureBuilder(
@@ -362,14 +425,15 @@ class _LauchDetailState extends State<LauchDetail> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top:5.0,bottom: 5.0),
+                padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
                 child: Text(
-                      "Payloads",
-                      style: TextStyle(fontSize: 20),
-                    ),
+                  "Payloads",
+                  style: TextStyle(fontSize: 20),
+                ),
               ),
               FutureBuilder(
-                future: SpaceXLaunchesService().getListPayloads(widget.spaceXLaunchesModel.payloads),
+                future: SpaceXLaunchesService()
+                    .getListPayloads(widget.spaceXLaunchesModel.payloads),
                 builder: (context, AsyncSnapshot<List<PayloadModel>> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Column(
@@ -383,27 +447,29 @@ class _LauchDetailState extends State<LauchDetail> {
                       ],
                     );
                   }
-                 late List<PayloadModel> listPayload;
-                 if(snapshot.data != null){
-                   listPayload = snapshot.data!;
-                 }
-                  return listPayload.isEmpty ? Center(
-                    child: Text('Payloads data not found'),
-                  ) : Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        CarouselSlider(
-                         items: payloadDataWidget(listPayload),
-                         options: CarouselOptions(
-                           viewportFraction: 1.0,
-                           aspectRatio: 1,
-                           initialPage: 0,
-                           enableInfiniteScroll: false,
-                         ))
-                      ],
-                    ),
-                  );
+                  late List<PayloadModel> listPayload;
+                  if (snapshot.data != null) {
+                    listPayload = snapshot.data!;
+                  }
+                  return listPayload.isEmpty
+                      ? Center(
+                          child: Text('Payloads data not found'),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              CarouselSlider(
+                                  items: payloadDataWidget(listPayload),
+                                  options: CarouselOptions(
+                                    viewportFraction: 1.0,
+                                    aspectRatio: 1,
+                                    initialPage: 0,
+                                    enableInfiniteScroll: false,
+                                  ))
+                            ],
+                          ),
+                        );
                 },
               )
             ],
@@ -413,113 +479,125 @@ class _LauchDetailState extends State<LauchDetail> {
     );
   }
 
-  List<Widget> payloadDataWidget(List<PayloadModel> listPayloads){
-    return listPayloads.map((payload){
-        return Builder(
-          builder: (context){
-            return SingleChildScrollView(
-              child: Container(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom:8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Name'),
-                          Text(payload.name ?? 'Unknown')
-                        ],
-                      ),
+  List<Widget> payloadDataWidget(List<PayloadModel> listPayloads) {
+    return listPayloads.map((payload) {
+      return Builder(
+        builder: (context) {
+          return SingleChildScrollView(
+            child: Container(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text('Name'), Text(payload.name ?? 'Unknown')],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom:8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Manufacturer'),
-                          for(var i in payload.manufacturers!)
-                            Text('$i,')
-                        ],
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Manufacturer'),
+                        Row(
+                          children: [
+                            for (var i in payload.manufacturers!) Text('$i,')
+                          ],
+                        )
+                        
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom:8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Customers'),
-                          for(var i in payload.customers!)
-                            Text('$i,')
-                        ],
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Customers'),
+                        Row(
+                          children: [
+                            for (var i in payload.customers!) Text('$i,')
+                          ],
+                        )
+                        
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom:8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Nationality'),
-                          for(var i in payload.nationalities!)
-                            Text('$i,')
-                        ],
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Nationality'),
+                        for (var i in payload.nationalities!) Text('$i,')
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom:8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('orbit'),
-                          Text(payload.orbit ?? 'Unknown')
-                        ],
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('orbit'),
+                        Text(payload.orbit ?? 'Unknown')
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom:8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Periapsis'),
-                          Text(payload.periapsisKm == null ? 'Unknown' : payload.periapsisKm.toString()+' km' )
-                        ],
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Periapsis'),
+                        Text(payload.periapsisKm == null
+                            ? 'Unknown'
+                            : payload.periapsisKm.toString() + ' km')
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom:8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Apoapsis'),
-                          Text(payload.apoapsisKm == null ? 'Unknown' : payload.apoapsisKm.toString()+' km' )
-                        ],
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Apoapsis'),
+                        Text(payload.apoapsisKm == null
+                            ? 'Unknown'
+                            : payload.apoapsisKm.toString() + ' km')
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom:8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Inclination'),
-                          Text(payload.inclinationDeg == null ? 'Unknown' : payload.inclinationDeg.toString()+' degree' )
-                        ],
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Inclination'),
+                        Text(payload.inclinationDeg == null
+                            ? 'Unknown'
+                            : payload.inclinationDeg.toString() + ' degree')
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom:8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Period'),
-                          Text(payload.lifespanYears == null ? 'Unknown' : payload.lifespanYears.toString()+' year' )
-                        ],
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Period'),
+                        Text(payload.lifespanYears == null
+                            ? 'Unknown'
+                            : payload.lifespanYears.toString() + ' year')
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            );
-          },
-        );
+            ),
+          );
+        },
+      );
     }).toList();
   }
 }
