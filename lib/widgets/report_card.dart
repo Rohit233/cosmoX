@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cosmox/models/report_model.dart';
 import 'package:cosmox/utils/BasicUtils.dart';
+import 'package:cosmox/utils/globalUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ReportCard extends StatefulWidget {
   final ReportModel reportModel;
@@ -55,7 +57,7 @@ class _ReportCardState extends State<ReportCard> {
                             left: 16,
                             child: Text(
                               widget.reportModel.title.toString(),
-                              style: TextStyle(
+                              style: GoogleFonts.abel(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
                                 color: Colors.white,
@@ -68,7 +70,7 @@ class _ReportCardState extends State<ReportCard> {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           widget.reportModel.newsSite,
-                          style: TextStyle(
+                          style: GoogleFonts.abel(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                           ),
@@ -87,7 +89,7 @@ class _ReportCardState extends State<ReportCard> {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text('Published at',
-                                      style: TextStyle(
+                                      style: GoogleFonts.abel(
                                         color: Colors.grey
                                       ),
                                     )),
@@ -95,7 +97,9 @@ class _ReportCardState extends State<ReportCard> {
                                 Row(
                                   children: [
                                     Icon(Icons.calendar_today_outlined),
-                                    Text(widget.reportModel.publishedAt.substring(0,10)),
+                                    Text(widget.reportModel.publishedAt.substring(0,10),
+                                      style: textStyle,
+                                    ),
                                   ],
                                 ),
                                 Padding(
@@ -104,7 +108,9 @@ class _ReportCardState extends State<ReportCard> {
                                 Row(
                                   children: [
                                     Icon(Icons.watch_outlined),
-                                    Text(widget.reportModel.publishedAt.substring(11,16)),
+                                    Text(widget.reportModel.publishedAt.substring(11,16),
+                                     style: textStyle,
+                                    ),
                                   ],
                                 ),
                               ],
@@ -117,7 +123,7 @@ class _ReportCardState extends State<ReportCard> {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text('Updated at',
-                                      style: TextStyle(
+                                      style: GoogleFonts.abel(
                                         color: Colors.grey
                                       ),
                                     )),
@@ -125,7 +131,9 @@ class _ReportCardState extends State<ReportCard> {
                                 Row(
                                   children: [
                                     Icon(Icons.calendar_today_outlined),
-                                    Text(widget.reportModel.updatedAt.substring(0,10)),
+                                    Text(widget.reportModel.updatedAt.substring(0,10),
+                                      style: textStyle,
+                                    ),
                                   ],
                                 ),
                                 Padding(
@@ -134,7 +142,9 @@ class _ReportCardState extends State<ReportCard> {
                                 Row(
                                   children: [
                                     Icon(Icons.watch_outlined),
-                                    Text(widget.reportModel.updatedAt.substring(11,16)),
+                                    Text(widget.reportModel.updatedAt.substring(11,16),
+                                      style: textStyle,
+                                    ),
                                   ],
                                 ),
                               ],
@@ -150,7 +160,7 @@ class _ReportCardState extends State<ReportCard> {
                         alignment: MainAxisAlignment.end,
                         children: [
                           TextButton(
-                            child: Text(isReadMore ? 'Read Less' : 'Read More'),
+                            child: Text(isReadMore ? 'Read Less' : 'Read More',style: textStyle,),
                             onPressed: () =>
                                 setState(() => isReadMore = !isReadMore),
                           )
@@ -161,13 +171,13 @@ class _ReportCardState extends State<ReportCard> {
         ));
   }
 
-  Widget buildText(String text) {
+ Widget buildText(String text) {
     final maxLines = isReadMore ? null : 5;
     final overflow = isReadMore ? TextOverflow.visible : TextOverflow.ellipsis;
     return Text(text,
         maxLines: maxLines,
         overflow: overflow,
         textAlign: TextAlign.justify,
-        style: TextStyle(fontSize: 16, color: Colors.white));
+        style: textStyle,);
   }
 }

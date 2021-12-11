@@ -21,7 +21,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       child: AppBar(
         centerTitle: true,
         backgroundColor: Colors.black54,
-        title: Text(widget.title, style: GoogleFonts.titanOne(fontSize: 20)),
+        title: Text(widget.title, style: GoogleFonts.abel(fontSize: 25)),
         shadowColor: Colors.white,
         elevation: 2,
         shape: RoundedRectangleBorder(

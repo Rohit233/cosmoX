@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cosmox/models/article_model.dart';
 import 'package:cosmox/utils/BasicUtils.dart';
 import 'package:cosmox/utils/DateTimeUtils.dart';
+import 'package:cosmox/utils/globalUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ArticleCard extends StatefulWidget {
   final ArticleModel articleModel;
@@ -17,18 +19,15 @@ class _ArticleCardState extends State<ArticleCard> {
   bool isVisible = true;
   bool isReadMore = false;
   bool isErrorImage = false;
-  Widget buildText(String text) {
-    final numLines = '\n'.allMatches(text).length + 1;
-    // isVisible = (numLines <= 5 ? false : true);
+Widget buildText(String text) {
     final maxLines = isReadMore ? null : 5;
     final overflow = isReadMore ? TextOverflow.visible : TextOverflow.ellipsis;
     return Text(text,
         maxLines: maxLines,
         overflow: overflow,
         textAlign: TextAlign.justify,
-        style: TextStyle(fontSize: 16, color: Colors.white));
+        style: textStyle,);
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,11 +70,11 @@ class _ArticleCardState extends State<ArticleCard> {
                         left: 16,
                         child: Text(
                           widget.articleModel.title.toString(),
-                          style: TextStyle(
+                          style: GoogleFonts.abel(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                             color: Colors.white,
-                          ),
+                          )
                         ),
                       )
                     ],
@@ -84,10 +83,10 @@ class _ArticleCardState extends State<ArticleCard> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       widget.articleModel.newsSite,
-                      style: TextStyle(
+                      style: GoogleFonts.abel(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
-                      ),
+                      )
                     ),
                   ),
                   Padding(
@@ -104,7 +103,10 @@ class _ArticleCardState extends State<ArticleCard> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     'Published at',
-                                    style: TextStyle(color: Colors.grey),
+                                    style: GoogleFonts.abel(
+                                      fontSize: 17,
+                                      color: Colors.grey
+                                    ),
                                   )),
                             ),
                             Row(
@@ -112,7 +114,9 @@ class _ArticleCardState extends State<ArticleCard> {
                                 Icon(Icons.calendar_today_outlined),
                                 Text(DateTimeUtils.getFormatedDateFromEpoch(
                                     widget.articleModel.publishedAt
-                                        .millisecondsSinceEpoch)),
+                                        .millisecondsSinceEpoch),
+                                    style: textStyle,    
+                                        ),
                               ],
                             ),
                             Padding(
@@ -123,7 +127,9 @@ class _ArticleCardState extends State<ArticleCard> {
                                 Icon(Icons.watch_outlined),
                                 Text(DateTimeUtils.getFormatedTimeFromEpoch(
                                     widget.articleModel.publishedAt
-                                        .millisecondsSinceEpoch)),
+                                        .millisecondsSinceEpoch),
+                                    style: textStyle,    
+                                        ),
                               ],
                             ),
                           ],
@@ -137,7 +143,10 @@ class _ArticleCardState extends State<ArticleCard> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     'Updated at',
-                                    style: TextStyle(color: Colors.grey),
+                                    style: GoogleFonts.abel(
+                                      fontSize: 17,
+                                      color: Colors.grey
+                                    ),
                                   )),
                             ),
                             Row(
@@ -145,7 +154,9 @@ class _ArticleCardState extends State<ArticleCard> {
                                 Icon(Icons.calendar_today_outlined),
                                 Text(DateTimeUtils.getFormatedDateFromEpoch(
                                     widget.articleModel.updatedAt
-                                        .millisecondsSinceEpoch)),
+                                        .millisecondsSinceEpoch),
+                                    style: textStyle,    
+                                        ),
                               ],
                             ),
                             Padding(
@@ -156,7 +167,9 @@ class _ArticleCardState extends State<ArticleCard> {
                                 Icon(Icons.watch_outlined),
                                 Text(DateTimeUtils.getFormatedTimeFromEpoch(
                                     widget.articleModel.updatedAt
-                                        .millisecondsSinceEpoch)),
+                                        .millisecondsSinceEpoch),
+                                    style: textStyle,    
+                                        ),
                               ],
                             ),
                           ],
@@ -174,7 +187,7 @@ class _ArticleCardState extends State<ArticleCard> {
                       Visibility(
                         visible: isVisible,
                         child: TextButton(
-                          child: Text(isReadMore ? 'Read Less' : 'Read More'),
+                          child: Text(isReadMore ? 'Read Less' : 'Read More',style: textStyle,),
                           onPressed: () =>
                               setState(() => isReadMore = !isReadMore),
                         ),

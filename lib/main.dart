@@ -1,5 +1,6 @@
 import 'package:cosmox/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,8 +21,9 @@ class MyApp extends StatelessWidget {
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
             type: BottomNavigationBarType.shifting,
             selectedItemColor: Colors.white,
-            selectedLabelStyle: TextStyle(
+            selectedLabelStyle: GoogleFonts.abel(
               color: Colors.white,
+              fontSize: 15
             ),
             selectedIconTheme: IconThemeData(color: Colors.blueAccent),
             unselectedItemColor: Colors.white),

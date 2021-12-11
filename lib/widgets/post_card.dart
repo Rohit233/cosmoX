@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cosmox/models/astronomy_post_model.dart';
+import 'package:cosmox/utils/globalUtils.dart';
 import 'package:cosmox/widgets/photo_view.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PostCard extends StatefulWidget {
@@ -83,11 +85,10 @@ class _PostCardState extends State<PostCard> {
                           left: 16,
                           child: Text(
                             widget.astronomyPostModel!.title.toString(),
-                            style: TextStyle(
+                            style:GoogleFonts.abel(
                               fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
+                              fontSize: 22,
+                              color: Colors.white,),
                           ),
                         )
                       ],
@@ -98,6 +99,7 @@ class _PostCardState extends State<PostCard> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           widget.astronomyPostModel!.date ?? "",
+                          style: textStyle,
                         ),
                       ),
                     ),
@@ -111,7 +113,7 @@ class _PostCardState extends State<PostCard> {
                       alignment: MainAxisAlignment.end,
                       children: [
                         TextButton(
-                          child: Text(isReadMore ? 'Read Less' : 'Read More'),
+                          child: Text(isReadMore ? 'Read Less' : 'Read More',style: textStyle,),
                           onPressed: () =>
                               setState(() => isReadMore = !isReadMore),
                         )
@@ -130,7 +132,7 @@ class _PostCardState extends State<PostCard> {
         maxLines: maxLines,
         overflow: overflow,
         textAlign: TextAlign.justify,
-        style: TextStyle(fontSize: 16, color: Colors.white));
+        style: textStyle,);
   }
 }
  
