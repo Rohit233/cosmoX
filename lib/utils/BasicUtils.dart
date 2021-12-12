@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -32,22 +34,22 @@ class BasicUtils {
     return false;
   }
 
-  static Widget loadingShimmer(
-      {double? width, double? height,Widget? child}) {
+  static Widget loadingShimmer({double? width, double? height, Widget? child}) {
     return Shimmer.fromColors(
       baseColor: Colors.black38,
       highlightColor: Colors.grey,
-      child: child ?? Container(
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(4.0)),
-        width: width,
-        height: height,
-      ),
+      child: child ??
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(4.0)),
+            width: width,
+            height: height,
+          ),
     );
   }
 
   static Widget loadingCard(context) {
-   return Card(
+    return Card(
       margin: EdgeInsets.all(8.0),
       color: Color.fromRGBO(0, 0, 0, 0.01),
       clipBehavior: Clip.antiAlias,
@@ -71,5 +73,17 @@ class BasicUtils {
         ),
       ),
     );
+  }
+
+  static Future<bool> checkInternetConnection() async {
+    try {
+      final result = await InternetAddress.lookup('www.google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        return true;
+      }
+    } on SocketException catch (_) {
+      return false;
+    }
+    return false;
   }
 }

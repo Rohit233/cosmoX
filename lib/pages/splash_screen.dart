@@ -1,46 +1,80 @@
 import 'package:cosmox/home.dart';
+import 'package:cosmox/utils/BasicUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({ Key? key }) : super(key: key);
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController animationController;
-
+  bool isInternetConnectionAvailable = true;
   @override
-    void initState() {
-      animationController = AnimationController(vsync: this,duration: Duration(seconds: 4));
-      animationController.addStatusListener((status) {
-          if(status == AnimationStatus.completed){
-            animationController.reset();
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                return Home();
-            }));
-            
-          }
-      });
-      super.initState();
-    }
+  void initState() {
+    animationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 4));
+    animationController.addStatusListener((status) async {
+      if (status == AnimationStatus.completed) {
+        animationController.reset();
+        if (isInternetConnectionAvailable) {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) {
+            return Home();
+          }));
+        }
+      } else if (status == AnimationStatus.forward) {
+        isInternetConnectionAvailable =
+            await BasicUtils.checkInternetConnection();
+        if(!isInternetConnectionAvailable){
+          setState(() {
+                  
+                });   
+        }    
+         
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Lottie.asset('assets/animations/splash_screen.json',
-        controller: animationController,
-        onLoaded: (onLoad){
-            animationController.forward();
-        },
-        animate: true,
-        repeat: false,
-        fit: BoxFit.fill,)
-      ),
+      body: isInternetConnectionAvailable
+          ? Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Lottie.asset(
+                'assets/animations/splash_screen.json',
+                controller: animationController,
+                onLoaded: (onLoad) {
+                  animationController.forward();
+                },
+                animate: true,
+                repeat: false,
+                fit: BoxFit.fill,
+              ))
+          : Container(
+            color: Colors.blueAccent,
+            child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('No internet connection'),
+                    IconButton(
+                        icon: Icon(Icons.replay_outlined),
+                        onPressed: () async{
+                          isInternetConnectionAvailable = await BasicUtils.checkInternetConnection();
+                          setState(() {});
+                        })
+                  ],
+                ),
+              ),
+          ),
     );
   }
 }
