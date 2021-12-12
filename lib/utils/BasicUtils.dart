@@ -66,15 +66,43 @@ class BasicUtils {
     return false;
   }
 
-  static Widget loadingShimmer({required double width,required double height}) {
+  static Widget loadingShimmer(
+      {double? width, double? height,Widget? child}) {
     return Shimmer.fromColors(
       baseColor: Colors.black38,
       highlightColor: Colors.grey,
-      child: Container(
+      child: child ?? Container(
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(4.0)),
         width: width,
         height: height,
+      ),
+    );
+  }
+
+  static Widget loadingCard(context) {
+   return Card(
+      margin: EdgeInsets.all(8.0),
+      color: Color.fromRGBO(0, 0, 0, 0.01),
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            BasicUtils.loadingShimmer(
+                width: MediaQuery.of(context).size.width - 120, height: 200),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: BasicUtils.loadingShimmer(width: 150, height: 15),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: BasicUtils.loadingShimmer(width: 150, height: 15),
+            )
+          ],
+        ),
       ),
     );
   }

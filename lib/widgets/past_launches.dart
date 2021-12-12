@@ -1,5 +1,6 @@
 import 'package:cosmox/Services/spacex_launchesService.dart';
 import 'package:cosmox/models/spacex_launches_model.dart';
+import 'package:cosmox/utils/BasicUtils.dart';
 import 'package:cosmox/utils/globalUtils.dart';
 import 'package:cosmox/widgets/launches_card_list.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,15 @@ class _PastLaunchesState extends State<PastLaunches>
         future: fetchPastLaunches(),
         builder: (context, AsyncSnapshot<List<SpaceXLaunchesModel>?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: circularProgressIndicator);
+            return ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context,int i){
+                return ListTile(
+                  leading: BasicUtils.loadingShimmer(child: CircleAvatar()),
+                  title: BasicUtils.loadingShimmer(height: 15,width: 150),
+                );
+              }
+            );
           }
           return snapshot.data == null
               ? Container(

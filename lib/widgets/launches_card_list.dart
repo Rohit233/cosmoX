@@ -1,6 +1,7 @@
 import 'package:cosmox/models/spacex_launches_model.dart';
 import 'package:cosmox/utils/BasicUtils.dart';
 import 'package:cosmox/utils/DateTimeUtils.dart';
+import 'package:cosmox/utils/globalUtils.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cosmox/widgets/launch_details.dart';
@@ -35,9 +36,9 @@ class _LaunchesCardState extends State<LaunchesCard> {
                 : NetworkImage(widget.spaceXLaunchesModel.smallIcon!),
           ),
         ),
-        title: Text(widget.spaceXLaunchesModel.name ?? ""),
+        title: Text(widget.spaceXLaunchesModel.name ?? "",style: textStyle,),
         subtitle: Text(DateTimeUtils.getFormatedDateTimeFromEpoch(
-            (widget.spaceXLaunchesModel.dateInUnix! * 1000))),
+            (widget.spaceXLaunchesModel.dateInUnix! * 1000)),style: textStyle,),
       )),
     );
   }

@@ -3,6 +3,7 @@ import 'package:cosmox/models/spacex_launches_model.dart';
 import 'package:cosmox/utils/BasicUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/index.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LaunchTimer extends StatefulWidget {
   const LaunchTimer({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class LaunchTimer extends StatefulWidget {
 }
 
 class _LaunchTimerState extends State<LaunchTimer> {
-  TextStyle textStyle = TextStyle(
+  TextStyle textStyle = GoogleFonts.abel(
     fontSize: 20,
     
   );

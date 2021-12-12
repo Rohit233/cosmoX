@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cosmox/models/article_model.dart';
 import 'package:cosmox/utils/BasicUtils.dart';
 import 'package:cosmox/utils/DateTimeUtils.dart';
+import 'package:cosmox/utils/globalUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ArticleCard extends StatefulWidget {
   final ArticleModel articleModel;
@@ -13,18 +15,19 @@ class ArticleCard extends StatefulWidget {
 }
 
 class _ArticleCardState extends State<ArticleCard> {
+  Color myHexColor = Color(0x00000000);
+  bool isVisible = true;
   bool isReadMore = false;
   bool isErrorImage = false;
-  Widget buildText(String text) {
+Widget buildText(String text) {
     final maxLines = isReadMore ? null : 5;
     final overflow = isReadMore ? TextOverflow.visible : TextOverflow.ellipsis;
     return Text(text,
         maxLines: maxLines,
         overflow: overflow,
         textAlign: TextAlign.justify,
-        style: TextStyle(fontSize: 16, color: Colors.white));
+        style: textStyle,);
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,10 +36,11 @@ class _ArticleCardState extends State<ArticleCard> {
         BasicUtils.openUrl(widget.articleModel.url);
       },
       child: Card(
-          color: Color.fromRGBO(0, 0, 0, 0.01),
+          color: myHexColor,
           clipBehavior: Clip.antiAlias,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+              side: BorderSide(width: 2, color: Colors.white30)),
           child: Padding(
               padding: EdgeInsets.all(12),
               child: Column(
@@ -66,11 +70,11 @@ class _ArticleCardState extends State<ArticleCard> {
                         left: 16,
                         child: Text(
                           widget.articleModel.title.toString(),
-                          style: TextStyle(
+                          style: GoogleFonts.abel(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                             color: Colors.white,
-                          ),
+                          )
                         ),
                       )
                     ],
@@ -79,10 +83,10 @@ class _ArticleCardState extends State<ArticleCard> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       widget.articleModel.newsSite,
-                      style: TextStyle(
+                      style: GoogleFonts.abel(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
-                      ),
+                      )
                     ),
                   ),
                   Padding(
@@ -99,7 +103,10 @@ class _ArticleCardState extends State<ArticleCard> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     'Published at',
-                                    style: TextStyle(color: Colors.grey),
+                                    style: GoogleFonts.abel(
+                                      fontSize: 17,
+                                      color: Colors.grey
+                                    ),
                                   )),
                             ),
                             Row(
@@ -107,7 +114,9 @@ class _ArticleCardState extends State<ArticleCard> {
                                 Icon(Icons.calendar_today_outlined),
                                 Text(DateTimeUtils.getFormatedDateFromEpoch(
                                     widget.articleModel.publishedAt
-                                        .millisecondsSinceEpoch)),
+                                        .millisecondsSinceEpoch),
+                                    style: textStyle,    
+                                        ),
                               ],
                             ),
                             Padding(
@@ -118,7 +127,9 @@ class _ArticleCardState extends State<ArticleCard> {
                                 Icon(Icons.watch_outlined),
                                 Text(DateTimeUtils.getFormatedTimeFromEpoch(
                                     widget.articleModel.publishedAt
-                                        .millisecondsSinceEpoch)),
+                                        .millisecondsSinceEpoch),
+                                    style: textStyle,    
+                                        ),
                               ],
                             ),
                           ],
@@ -132,7 +143,10 @@ class _ArticleCardState extends State<ArticleCard> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     'Updated at',
-                                    style: TextStyle(color: Colors.grey),
+                                    style: GoogleFonts.abel(
+                                      fontSize: 17,
+                                      color: Colors.grey
+                                    ),
                                   )),
                             ),
                             Row(
@@ -140,7 +154,9 @@ class _ArticleCardState extends State<ArticleCard> {
                                 Icon(Icons.calendar_today_outlined),
                                 Text(DateTimeUtils.getFormatedDateFromEpoch(
                                     widget.articleModel.updatedAt
-                                        .millisecondsSinceEpoch)),
+                                        .millisecondsSinceEpoch),
+                                    style: textStyle,    
+                                        ),
                               ],
                             ),
                             Padding(
@@ -151,7 +167,9 @@ class _ArticleCardState extends State<ArticleCard> {
                                 Icon(Icons.watch_outlined),
                                 Text(DateTimeUtils.getFormatedTimeFromEpoch(
                                     widget.articleModel.updatedAt
-                                        .millisecondsSinceEpoch)),
+                                        .millisecondsSinceEpoch),
+                                    style: textStyle,    
+                                        ),
                               ],
                             ),
                           ],
@@ -166,10 +184,13 @@ class _ArticleCardState extends State<ArticleCard> {
                   ButtonBar(
                     alignment: MainAxisAlignment.end,
                     children: [
-                      TextButton(
-                        child: Text(isReadMore ? 'Read Less' : 'Read More'),
-                        onPressed: () =>
-                            setState(() => isReadMore = !isReadMore),
+                      Visibility(
+                        visible: isVisible,
+                        child: TextButton(
+                          child: Text(isReadMore ? 'Read Less' : 'Read More',style: textStyle,),
+                          onPressed: () =>
+                              setState(() => isReadMore = !isReadMore),
+                        ),
                       )
                     ],
                   )

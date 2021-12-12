@@ -7,9 +7,11 @@ import 'package:cosmox/models/rocket_model.dart';
 import 'package:cosmox/models/spacex_launches_model.dart';
 import 'package:cosmox/utils/BasicUtils.dart';
 import 'package:cosmox/utils/DateTimeUtils.dart';
+import 'package:cosmox/utils/globalUtils.dart';
 import 'package:cosmox/widgets/autoPhotoScroll.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
 
 class LauchDetail extends StatefulWidget {
@@ -22,6 +24,9 @@ class LauchDetail extends StatefulWidget {
 }
 
 class _LauchDetailState extends State<LauchDetail> {
+  TextStyle headingTextStyle = GoogleFonts.abel(
+    fontSize: 22
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +48,7 @@ class _LauchDetailState extends State<LauchDetail> {
                   }
                   return FlexibleSpaceBar(
                       centerTitle: true,
-                      title: Text(widget.spaceXLaunchesModel.name ?? ""),
+                      title: Text(widget.spaceXLaunchesModel.name ?? "",style: headingTextStyle,),
                       background: snapshot.data!.flickrImages.isEmpty
                           ? Center(
                               child: Text("Photos not available"),
@@ -96,6 +101,7 @@ class _LauchDetailState extends State<LauchDetail> {
                       title: Text(
                         widget.spaceXLaunchesModel.name ?? "",
                         textAlign: TextAlign.justify,
+                        style: textStyle,
                       ),
                       subtitle: Column(
                         children: [
@@ -105,7 +111,7 @@ class _LauchDetailState extends State<LauchDetail> {
                               Padding(padding: EdgeInsets.only(left: 5)),
                               Text(DateTimeUtils.getFormatedDateFromEpoch(
                                   widget.spaceXLaunchesModel.dateInUnix! *
-                                      1000))
+                                      1000),style: textStyle,)
                             ],
                           ),
                           Padding(
@@ -141,7 +147,7 @@ class _LauchDetailState extends State<LauchDetail> {
                                         );
                                       }
                                       return Text(snapshot.data!.locality ??
-                                          'Location not available');
+                                          'Location not available',style: textStyle,);
                                     })
                               ],
                             ),
@@ -152,7 +158,7 @@ class _LauchDetailState extends State<LauchDetail> {
                     Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(widget.spaceXLaunchesModel.details ??
-                          'No details found'),
+                          'No details found',style: textStyle,),
                     )
                   ],
                 ),
@@ -219,7 +225,7 @@ class _LauchDetailState extends State<LauchDetail> {
                     alignment: Alignment.center,
                     child: Text(
                       "Rocket",
-                      style: TextStyle(fontSize: 20),
+                      style: headingTextStyle,
                     ),
                   ),
                 ),
@@ -245,7 +251,7 @@ class _LauchDetailState extends State<LauchDetail> {
                       }
                       return rocketModel == null
                           ? Center(
-                              child: Text('No rocket data found'),
+                              child: Text('No rocket data found',style: textStyle,),
                             )
                           : InkWell(
                               onTap: () {
@@ -264,8 +270,8 @@ class _LauchDetailState extends State<LauchDetail> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Model'),
-                                          Text(rocketModel.name ?? 'Unknown')
+                                          Text('Model',style: textStyle,),
+                                          Text(rocketModel.name ?? 'Unknown',style: textStyle,)
                                         ],
                                       ),
                                     ),
@@ -275,7 +281,7 @@ class _LauchDetailState extends State<LauchDetail> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Static fire'),
+                                          Text('Static fire',style: textStyle,),
                                           Text(widget.spaceXLaunchesModel
                                                       .staticFireDateUnix ==
                                                   null
@@ -284,7 +290,7 @@ class _LauchDetailState extends State<LauchDetail> {
                                                   .getFormatedDateTimeFromEpoch(
                                                       widget.spaceXLaunchesModel
                                                               .staticFireDateUnix! *
-                                                          1000))
+                                                          1000),style: textStyle,)
                                         ],
                                       ),
                                     ),
@@ -294,10 +300,10 @@ class _LauchDetailState extends State<LauchDetail> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Stages'),
+                                          Text('Stages',style: textStyle,),
                                           Text(rocketModel.stages == null
                                               ? 'Unknow'
-                                              : rocketModel.stages.toString())
+                                              : rocketModel.stages.toString(),style: textStyle,)
                                         ],
                                       ),
                                     ),
@@ -307,7 +313,7 @@ class _LauchDetailState extends State<LauchDetail> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Reused(First Stage)'),
+                                          Text('Reused(First Stage)',style: textStyle,),
                                           rocketModel.reusableFirstStage == null
                                               ? Icon(Icons.help_outline_sharp)
                                               : (rocketModel.reusableFirstStage!
@@ -326,7 +332,7 @@ class _LauchDetailState extends State<LauchDetail> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Reused(Second Stage)'),
+                                          Text('Reused(Second Stage)',style: textStyle,),
                                           rocketModel.reusableSecondStage ==
                                                   null
                                               ? Icon(Icons.help_outline_sharp)
@@ -347,10 +353,10 @@ class _LauchDetailState extends State<LauchDetail> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Boosters'),
+                                          Text('Boosters',style: textStyle,),
                                           Text(rocketModel.boosters == null
                                               ? 'Unknown'
-                                              : rocketModel.boosters.toString())
+                                              : rocketModel.boosters.toString(),style: textStyle,)
                                         ],
                                       ),
                                     ),
@@ -360,10 +366,10 @@ class _LauchDetailState extends State<LauchDetail> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Country'),
+                                          Text('Country',style: textStyle,),
                                           Text(rocketModel.country == null
                                               ? 'Unknown'
-                                              : rocketModel.country.toString())
+                                              : rocketModel.country.toString(),style: textStyle,)
                                         ],
                                       ),
                                     ),
@@ -373,11 +379,11 @@ class _LauchDetailState extends State<LauchDetail> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('First flight'),
+                                          Text('First flight',style: textStyle,),
                                           Text(rocketModel.firstFlight == null
                                               ? 'Unknown'
                                               : rocketModel.firstFlight
-                                                  .toString())
+                                                  .toString(),style: textStyle,)
                                         ],
                                       ),
                                     ),
@@ -387,7 +393,7 @@ class _LauchDetailState extends State<LauchDetail> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text('Description'),
+                                          Text('Description',style: textStyle,),
                                           Expanded(
                                               child: Padding(
                                             padding: const EdgeInsets.only(
@@ -398,6 +404,7 @@ class _LauchDetailState extends State<LauchDetail> {
                                                   : rocketModel.description
                                                       .toString(),
                                               textAlign: TextAlign.justify,
+                                              style: textStyle,
                                             ),
                                           ))
                                         ],
@@ -428,7 +435,7 @@ class _LauchDetailState extends State<LauchDetail> {
                 padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
                 child: Text(
                   "Payloads",
-                  style: TextStyle(fontSize: 20),
+                  style: headingTextStyle,
                 ),
               ),
               FutureBuilder(
@@ -453,7 +460,7 @@ class _LauchDetailState extends State<LauchDetail> {
                   }
                   return listPayload.isEmpty
                       ? Center(
-                          child: Text('Payloads data not found'),
+                          child: Text('Payloads data not found',style: textStyle,),
                         )
                       : Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -491,7 +498,7 @@ class _LauchDetailState extends State<LauchDetail> {
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text('Name'), Text(payload.name ?? 'Unknown')],
+                      children: [Text('Name',style: textStyle,), Text(payload.name ?? 'Unknown',style: textStyle,)],
                     ),
                   ),
                   Padding(
@@ -499,10 +506,10 @@ class _LauchDetailState extends State<LauchDetail> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Manufacturer'),
+                        Text('Manufacturer',style: textStyle,),
                         Row(
                           children: [
-                            for (var i in payload.manufacturers!) Text('$i,')
+                            for (var i in payload.manufacturers!) Text('$i,',style: textStyle,)
                           ],
                         )
                         
@@ -514,10 +521,10 @@ class _LauchDetailState extends State<LauchDetail> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Customers'),
+                        Text('Customers',style: textStyle,),
                         Row(
                           children: [
-                            for (var i in payload.customers!) Text('$i,')
+                            for (var i in payload.customers!) Text('$i,',style: textStyle,)
                           ],
                         )
                         
@@ -529,8 +536,8 @@ class _LauchDetailState extends State<LauchDetail> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Nationality'),
-                        for (var i in payload.nationalities!) Text('$i,')
+                        Text('Nationality',style: textStyle,),
+                        for (var i in payload.nationalities!) Text('$i,',style: textStyle,)
                       ],
                     ),
                   ),
@@ -539,8 +546,8 @@ class _LauchDetailState extends State<LauchDetail> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('orbit'),
-                        Text(payload.orbit ?? 'Unknown')
+                        Text('orbit',style: textStyle,),
+                        Text(payload.orbit ?? 'Unknown',style: textStyle,)
                       ],
                     ),
                   ),
@@ -549,10 +556,10 @@ class _LauchDetailState extends State<LauchDetail> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Periapsis'),
+                        Text('Periapsis',style: textStyle,),
                         Text(payload.periapsisKm == null
                             ? 'Unknown'
-                            : payload.periapsisKm.toString() + ' km')
+                            : payload.periapsisKm.toString() + ' km',style: textStyle,)
                       ],
                     ),
                   ),
@@ -561,10 +568,10 @@ class _LauchDetailState extends State<LauchDetail> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Apoapsis'),
+                        Text('Apoapsis',style: textStyle,),
                         Text(payload.apoapsisKm == null
                             ? 'Unknown'
-                            : payload.apoapsisKm.toString() + ' km')
+                            : payload.apoapsisKm.toString() + ' km',style: textStyle,)
                       ],
                     ),
                   ),
@@ -573,10 +580,10 @@ class _LauchDetailState extends State<LauchDetail> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Inclination'),
+                        Text('Inclination',style: textStyle,),
                         Text(payload.inclinationDeg == null
                             ? 'Unknown'
-                            : payload.inclinationDeg.toString() + ' degree')
+                            : payload.inclinationDeg.toString() + ' degree',style: textStyle,)
                       ],
                     ),
                   ),
@@ -585,10 +592,10 @@ class _LauchDetailState extends State<LauchDetail> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Period'),
+                        Text('Period',style: textStyle,),
                         Text(payload.lifespanYears == null
                             ? 'Unknown'
-                            : payload.lifespanYears.toString() + ' year')
+                            : payload.lifespanYears.toString() + ' year',style: textStyle,)
                       ],
                     ),
                   ),
