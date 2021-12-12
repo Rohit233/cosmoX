@@ -20,10 +20,11 @@ class _ArticleCardState extends State<ArticleCard> {
   bool isReadMore = false;
   bool isErrorImage = false;
 Widget buildText(String text) {
-    final maxLines = isReadMore ? null : 5;
     final overflow = isReadMore ? TextOverflow.visible : TextOverflow.ellipsis;
-    return Text(text,
-        maxLines: maxLines,
+    return text.length < textLengthForCard ?
+     Text( text,
+        textAlign: TextAlign.justify,
+        style: textStyle,) : Text( !isReadMore ? text.substring(0,textLengthForCard) : text,
         overflow: overflow,
         textAlign: TextAlign.justify,
         style: textStyle,);
@@ -184,14 +185,11 @@ Widget buildText(String text) {
                   ButtonBar(
                     alignment: MainAxisAlignment.end,
                     children: [
-                      Visibility(
-                        visible: isVisible,
-                        child: TextButton(
-                          child: Text(isReadMore ? 'Read Less' : 'Read More',style: textStyle,),
-                          onPressed: () =>
-                              setState(() => isReadMore = !isReadMore),
-                        ),
-                      )
+                     widget.articleModel.summary.length >=textLengthForCard ?  TextButton(
+                          child: Text(isReadMore ? 'Read Less' : 'Read More'),
+                          onPressed: () {
+                            setState(() => isReadMore = !isReadMore);
+                          }) : Container()
                     ],
                   )
                 ],

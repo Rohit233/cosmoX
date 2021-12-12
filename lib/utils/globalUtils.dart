@@ -6,3 +6,4 @@ ValueNotifier<int> currentTab = ValueNotifier(0);
 LocationData userLocationData = LocationData.fromMap({});
 CircularProgressIndicator circularProgressIndicator = CircularProgressIndicator(strokeWidth: 0.9,);
 TextStyle textStyle = GoogleFonts.abel(fontSize: 17);
+int textLengthForCard = 300;
