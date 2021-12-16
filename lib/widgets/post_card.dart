@@ -43,10 +43,10 @@ class _PostCardState extends State<PostCard> {
                                   state((){});
                               },
                                 image: widget.astronomyPostModel!.hdUrl != null
-                                    ? isErrorImage ? AssetImage('assets/images/ISS.png') as ImageProvider : CachedNetworkImageProvider(widget
+                                    ? isErrorImage ? AssetImage(largeIcon) as ImageProvider : CachedNetworkImageProvider(widget
                                         .astronomyPostModel!.hdUrl
                                         .toString())
-                                    : isErrorImage ? AssetImage('assets/images/ISS.png') as ImageProvider :  CachedNetworkImageProvider(widget
+                                    : isErrorImage ? AssetImage(largeIcon) as ImageProvider :  CachedNetworkImageProvider(widget
                                         .astronomyPostModel!.url
                                         .toString()),
                                 child: InkWell(

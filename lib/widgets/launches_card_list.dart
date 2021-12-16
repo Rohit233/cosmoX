@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cosmox/models/spacex_launches_model.dart';
 import 'package:cosmox/utils/BasicUtils.dart';
 import 'package:cosmox/utils/DateTimeUtils.dart';
@@ -16,6 +17,7 @@ class LaunchesCard extends StatefulWidget {
 }
 
 class _LaunchesCardState extends State<LaunchesCard> {
+  bool isImageLoadingFailed = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,13 +29,20 @@ class _LaunchesCardState extends State<LaunchesCard> {
         },
         leading: Container(
           decoration: BoxDecoration(
-              shape: BoxShape.circle, border: Border.all(color: Colors.black)),
+              shape: BoxShape.circle,),
           child: CircleAvatar(
             backgroundColor: Colors.white,
             maxRadius: 23,
             foregroundImage: widget.spaceXLaunchesModel.smallIcon == null
-                ? null
-                : NetworkImage(widget.spaceXLaunchesModel.smallIcon!),
+                ? AssetImage(smallIcon)
+                : isImageLoadingFailed ? AssetImage(smallIcon) as ImageProvider : CachedNetworkImageProvider(widget.spaceXLaunchesModel.smallIcon!,
+                    errorListener: (){
+                      setState(() {
+                         isImageLoadingFailed = true;                
+
+                      });
+                    }
+                ),
           ),
         ),
         title: Text(widget.spaceXLaunchesModel.name ?? "",style: textStyle,),

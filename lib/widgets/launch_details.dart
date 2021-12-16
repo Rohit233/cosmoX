@@ -95,7 +95,8 @@ class _LauchDetailState extends State<LauchDetail> {
                   children: [
                     ListTile(
                       leading: CircleAvatar(
-                        foregroundImage: CachedNetworkImageProvider(
+                        foregroundImage: widget.spaceXLaunchesModel.smallIcon == null ? AssetImage(smallIcon) as ImageProvider 
+                        : CachedNetworkImageProvider(
                             widget.spaceXLaunchesModel.smallIcon ?? ''),
                       ),
                       title: Text(

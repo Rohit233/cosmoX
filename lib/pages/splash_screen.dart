@@ -13,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
   @override
     void initState() {
-      animationController = AnimationController(vsync: this,duration: Duration(seconds: 4));
+      animationController = AnimationController(vsync: this,duration: Duration(seconds: 6));
       animationController.addStatusListener((status) {
           if(status == AnimationStatus.completed){
             animationController.reset();
@@ -30,16 +30,17 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Lottie.asset('assets/animations/splash_screen.json',
-        controller: animationController,
-        onLoaded: (onLoad){
-            animationController.forward();
-        },
-        animate: true,
-        repeat: false,
-        fit: BoxFit.fill,)
+        color: Color(0xFF454561),
+        child: Center(
+          child: Lottie.asset('assets/animations/app-logo.json',
+          controller: animationController,
+          onLoaded: (onLoad){
+              animationController.forward();
+          },
+          animate: true,
+          repeat: false,
+          fit: BoxFit.fill,),
+        )
       ),
     );
   }

@@ -46,6 +46,6 @@ class AstronomyPostServices {
         return List.from(astronomyPost.reversed);
       }
     }
-    return null;
+    return [];
   }
 }

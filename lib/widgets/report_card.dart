@@ -40,7 +40,7 @@ class _ReportCardState extends State<ReportCard> {
                                   isErrorImage = true;
                                   state((){});
                               },
-                            image: isErrorImage ? AssetImage('assets/images/ISS.png') as ImageProvider : CachedNetworkImageProvider(
+                            image: isErrorImage ? AssetImage(largeIcon) as ImageProvider : CachedNetworkImageProvider(
                                 widget.reportModel.imageUrl.toString()),
                             child: InkWell(
                               onTap: () {

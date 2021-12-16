@@ -75,7 +75,11 @@ class _AstronomyPostsState extends State<AstronomyPosts> {
                               }
                             )
                           )
-                          : ListView.separated(
+                          : listAstronomyPost.isEmpty ? Container(
+                            child: Center(
+                              child: Text('No post available'),
+                            ),
+                          ) : ListView.separated(
                               controller: scrollController,
                               itemBuilder: (context, int i) {
                                 return Column(

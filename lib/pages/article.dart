@@ -91,7 +91,11 @@ class _ArticleState extends State<Article> {
                             physics: NeverScrollableScrollPhysics(),
                             itemBuilder: (context,int i){
                               return BasicUtils.loadingCard(context);
-                            }) : ListView.builder(
+                            }) : listArticles.isEmpty ? Container(
+                            child: Center(
+                              child: Text('No articles available'),
+                            ),
+                          ) : ListView.builder(
                             controller: scrollController,
                             itemCount: listArticles.length,
                             itemBuilder: (context, int i) {

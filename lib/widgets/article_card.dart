@@ -54,7 +54,7 @@ Widget buildText(String text) {
                           isErrorImage = true;
                           state(() {});
                         },
-                        image: isErrorImage ? AssetImage('assets/images/ISS.png') as ImageProvider : CachedNetworkImageProvider(
+                        image: isErrorImage ? AssetImage(largeIcon) as ImageProvider : CachedNetworkImageProvider(
                             widget.articleModel.imageUrl.toString()),
                         child: InkWell(
                           onTap: () {
