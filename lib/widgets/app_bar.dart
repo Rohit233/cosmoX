@@ -1,3 +1,4 @@
+import 'package:cosmox/utils/BasicUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -20,6 +21,24 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       duration: Duration(milliseconds: 200),
       child: AppBar(
         centerTitle: true,
+        actions: [
+          PopupMenuButton(
+                onSelected:(int value){
+                  if(value ==1){
+                    BasicUtils.openUrl('https://sites.google.com/view/cosmox-privacypolicy/home');
+                  }
+                } ,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)
+                ),
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    child: Text('Privacy policy'),
+                    value: 1,
+                  ),
+                ]
+            )
+        ],
         backgroundColor: Colors.black54,
         title: Text(widget.title, style: GoogleFonts.abel(fontSize: 25)),
         shadowColor: Colors.white,
