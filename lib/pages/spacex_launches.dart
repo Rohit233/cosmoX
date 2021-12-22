@@ -1,3 +1,5 @@
+import 'package:cosmox/utils/globalUtils.dart';
+import 'package:cosmox/widgets/launch_timer.dart';
 import 'package:cosmox/widgets/past_launches.dart';
 import 'package:cosmox/widgets/upcoming_launches.dart';
 import 'package:flutter/material.dart';
@@ -21,10 +23,10 @@ class _SpaceXLaunchesState extends State<SpaceXLaunches> with TickerProviderStat
       controller: tabController,
       tabs: [
         Tab(
-          child: Text('Upcoming launches'),
+          child: Text('Upcoming launches',style: textStyle,),
         ),
         Tab(
-          child: Text('Past launches'),
+          child: Text('Past launches',style: textStyle,),
         ),
       ],
     );
@@ -46,6 +48,7 @@ class _SpaceXLaunchesState extends State<SpaceXLaunches> with TickerProviderStat
     return Container(
       child: Column(
         children: [
+          LaunchTimer(),
           tabs(),
           Expanded(child: tabView())
         ],

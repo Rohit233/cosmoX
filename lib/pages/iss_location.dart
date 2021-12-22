@@ -5,7 +5,6 @@ import 'package:cosmox/models/iss_location_model.dart';
 import 'package:cosmox/pages/report.dart';
 import 'package:cosmox/utils/IconUtils.dart';
 import 'package:cosmox/utils/globalUtils.dart';
-import 'package:cosmox/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';

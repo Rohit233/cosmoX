@@ -3,12 +3,12 @@ class PayloadModel{
   late String? _name;
   late bool? _reused;
   late String? _type;
-  late double? _lifespanYears;
+  late int? _lifespanYears;
   late double? _periapsisKm;
   late double? _apoapsisKm;
   late double? _inclinationDeg;
   late String? _referenceSystem;
-  late double? _massKg;
+  late int? _massKg;
   late String? _orbit;
   late List? _customers = [];
   late List? _nationalities = [];
@@ -29,9 +29,9 @@ class PayloadModel{
 
  set type(String? type) => this._type = type;
 
- double? get lifespanYears => this._lifespanYears;
+ int? get lifespanYears => this._lifespanYears;
 
- set lifespanYears(double? lifespanYears) => this._lifespanYears = lifespanYears;
+ set lifespanYears(int? lifespanYears) => this._lifespanYears = lifespanYears;
 
  double? get periapsisKm => this._periapsisKm;
 
@@ -49,9 +49,9 @@ class PayloadModel{
 
  set referenceSystem(String? referenceSystem) => this._referenceSystem = referenceSystem;
 
- double? get massKg => this._massKg;
+ int? get massKg => this._massKg;
 
- set massKg(double? massKg) => this._massKg = massKg;
+ set massKg(int? massKg) => this._massKg = massKg;
 
  String? get orbit => this._orbit;
 

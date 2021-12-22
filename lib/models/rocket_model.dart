@@ -1,101 +1,115 @@
 class RocketModel {
-  late String _id;
-  late String _description;
-  late String _wikipedia;
-  late String _company;
-  late String _country;
-  late String _firstFlight;
-  late int _successRatePct;
-  late int _costPerLaunch;
-  late int _boosters;
-  late int _stages;
-  late bool _active;
-  late String _type;
-  late String _name;
+  late String? _id;
+  late String? _description;
+  late String? _wikipedia;
+  late String? _company;
+  late String? _country;
+  late String? _firstFlight;
+  late int? _successRatePct;
+  late int? _costPerLaunch;
+  late int? _boosters;
+  late int? _stages;
+  late bool? _active;
+  late String? _type;
+  late String? _name;
   late List _flickrImages = [];
-  late List<PayloadWeight> _payloadWeights = [];
-  late LandingLegs _landingLegs;
-  late Height _height;
-  late Diameter _diameter;
-  late Mass _mass;
+  late List<PayloadWeight>? _payloadWeights = [];
+  late LandingLegs? _landingLegs;
+  late Height? _height;
+  late Diameter? _diameter;
+  late Mass? _mass;
+  late bool? _reusableFirstStage;
+  late bool? _reusableSecondStage;
 
-  String get id => this._id;
+  bool? get reusableFirstStage => this._reusableFirstStage;
 
-  set id(String id) => this._id = id;
+  set reusableFirstStage(bool? reusableFirstStage){
+    this._reusableFirstStage = reusableFirstStage;
+  }
+  
+  bool? get reusableSecondStage => this._reusableSecondStage;
 
-  String get description => this._description;
+  set reusableSecondStage(bool? reusableSecondStage){
+    this._reusableSecondStage = reusableSecondStage;
+  }
 
-  set description(String description) => this._description = description;
+  String? get id => this._id;
 
-  String get wikipedia => this._wikipedia;
+  set id(String? id) => this._id = id;
 
-  set wikipedia(String wikipedia) => this._wikipedia = wikipedia;
+  String? get description => this._description;
 
-  String get company => this._company;
+  set description(String? description) => this._description = description;
 
-  set company(String company) => this._company = company;
+  String? get wikipedia => this._wikipedia;
 
-  String get country => this._country;
+  set wikipedia(String? wikipedia) => this._wikipedia = wikipedia;
 
-  set country(String country) => this._country = country;
+  String? get company => this._company;
 
-  String get firstFlight => this._firstFlight;
+  set company(String? company) => this._company = company;
 
-  set firstFlight(String firstFlight) => this._firstFlight = firstFlight;
+  String? get country => this._country;
 
-  int get successRatePct => this._successRatePct;
+  set country(String? country) => this._country = country;
 
-  set successRatePct(int successRatePct) =>
+  String? get firstFlight => this._firstFlight;
+
+  set firstFlight(String? firstFlight) => this._firstFlight = firstFlight;
+
+  int? get successRatePct => this._successRatePct;
+
+  set successRatePct(int? successRatePct) =>
       this._successRatePct = successRatePct;
 
-  int get costPerLaunch => this._costPerLaunch;
+  int? get costPerLaunch => this._costPerLaunch;
 
-  set costPerLaunch(int costPerLaunch) => this._costPerLaunch = costPerLaunch;
+  set costPerLaunch(int? costPerLaunch) => this._costPerLaunch = costPerLaunch;
 
-  int get boosters => this._boosters;
+  int? get boosters => this._boosters;
 
-  set boosters(int boosters) => this._boosters = boosters;
+  set boosters(int? boosters) => this._boosters = boosters;
 
-  int get stages => this._stages;
+  int? get stages => this._stages;
 
-  set stages(int stages) => this._stages = stages;
+  set stages(int? stages) => this._stages = stages;
 
-  bool get active => this._active;
+  bool? get active => this._active;
 
-  set active(bool active) => this._active = active;
+  set active(bool? active) => this._active = active;
 
-  String get type => this._type;
+  String? get type => this._type;
 
-  set type(String type) => this._type = type;
+  set type(String? type) => this._type = type;
 
-  String get name => this._name;
+  String? get name => this._name;
 
-  set name(String name) => this._name = name;
+  set name(String? name) => this._name = name;
 
   List get flickrImages => this._flickrImages;
 
   set flickrImages(List flickrImages) => this._flickrImages = flickrImages;
 
-  List<PayloadWeight> get payloadWeights => this._payloadWeights;
+  List<PayloadWeight>? get payloadWeights => this._payloadWeights;
 
-  set payloadWeights(List<PayloadWeight> payloadWeights) =>
+  set payloadWeights(List<PayloadWeight>? payloadWeights) =>
       this._payloadWeights = payloadWeights;
 
-  LandingLegs get landingLegs => this._landingLegs;
+  LandingLegs? get landingLegs => this._landingLegs;
 
-  set landingLegs(LandingLegs landingLegs) => this._landingLegs = landingLegs;
+  set landingLegs(LandingLegs? landingLegs) => this._landingLegs = landingLegs;
 
-  Height get height => this._height;
+  Height? get height => this._height;
 
-  set height(Height height) => this._height = height;
+  set height(Height? height) => this._height = height;
 
-  Diameter get diameter => this._diameter;
+  Diameter? get diameter => this._diameter;
 
-  set diameter(Diameter diameter) => this._diameter = diameter;
+  set diameter(Diameter? diameter) => this._diameter = diameter;
 
-  Mass get mass => this._mass;
+  Mass? get mass => this._mass;
 
-  set mass(Mass mass) => this._mass = mass;
+  set mass(Mass? mass) => this._mass = mass;
 
   RocketModel getRocketModelObject(data) {
     RocketModel rocketModel = RocketModel();
@@ -112,24 +126,17 @@ class RocketModel {
     rocketModel.active = data['active'];
     rocketModel.type = data['type'];
     rocketModel.name = data['name'];
+    rocketModel.reusableFirstStage = data['first_stage']['reusable'];
+    rocketModel.reusableSecondStage = data['second_stage']['reusable'];
     rocketModel.flickrImages = data['flickr_images'];
     for (var i in data['payload_weights']) {
-      rocketModel.payloadWeights.add(PayloadWeight(
+      rocketModel.payloadWeights!.add(PayloadWeight(
         id: i['id'],
         kg: i['kg'],
         lb: i['lb'],
         name: i['name'],
       ));
-    }
-    rocketModel.landingLegs =
-        LandingLegs(number: data['landing_legs']['number'],
-         material: data['landing_legs']['material']);
-    rocketModel.height = Height(meters: data['height']['meters'],
-     feet: data['height']['feet']);
-    rocketModel.diameter = Diameter(meters: data['diameter']['meters'],
-     feet: data['diameter']['feet']); 
-    rocketModel.mass = Mass(kg: data['mass']['kg'],
-     lb: data['mass']['lb']); 
+    } 
     return rocketModel;
   }
 }

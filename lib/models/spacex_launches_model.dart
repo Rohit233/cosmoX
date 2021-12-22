@@ -20,6 +20,11 @@ class SpaceXLaunchesModel{
   late String? _details;
   late List<LaunchFailures>? _failures = [];
   late String? _launchePad;
+  late Reddit ? _reddit;
+
+  Reddit? get reddit => this._reddit;
+
+  set reddit(Reddit? reddit) => this._reddit = reddit;
 
   String? get id => this._id;
 
@@ -119,14 +124,17 @@ class SpaceXLaunchesModel{
     spaceXLaunchesModel.payloads!.addAll(data['payloads']);
     spaceXLaunchesModel.launchePad = data['launchpad'];
     spaceXLaunchesModel.rocket = data['rocket'];
-    spaceXLaunchesModel.webcast = data['webcast'];
-    spaceXLaunchesModel.youtubeId = data['youtube_id'];
-    spaceXLaunchesModel.article = data['article'];
-    spaceXLaunchesModel.wikipedia = data['wikipedia'];
+    spaceXLaunchesModel.webcast = data['links']['webcast'];
+    spaceXLaunchesModel.youtubeId = data['links']['youtube_id'];
+    spaceXLaunchesModel.article = data['links']['article'];
+    spaceXLaunchesModel.wikipedia = data['links']['wikipedia'];
     spaceXLaunchesModel.staticFireDateUnix = data['static_fire_date_unix'];
     spaceXLaunchesModel.success = data['success'];
     spaceXLaunchesModel.details = data['details'];
     spaceXLaunchesModel.smallIcon = data['links']['patch']['large'];
+    spaceXLaunchesModel._reddit = Reddit(data['links']['reddit']['campaign'],
+     data['links']['reddit']['launch'], data['links']['reddit']['media'],
+     data['links']['reddit']['recovery']);
 
     for(var failure in data['failures']){
       spaceXLaunchesModel.failures!.add(LaunchFailures(
@@ -178,4 +186,12 @@ class Core{
   required this.landingType,
   required this.landingPad,
   });
+}
+
+class Reddit{
+  late String? campaign;
+  late String? launch;
+  late String? media;
+  late String? recovery;
+  Reddit(this.campaign,this.launch,this.media,this.recovery);  
 }

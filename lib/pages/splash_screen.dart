@@ -30,12 +30,9 @@ class _SplashScreenState extends State<SplashScreen>
       } else if (status == AnimationStatus.forward) {
         isInternetConnectionAvailable =
             await BasicUtils.checkInternetConnection();
-        if(!isInternetConnectionAvailable){
-          setState(() {
-                  
-                });   
-        }    
-         
+        if (!isInternetConnectionAvailable) {
+          setState(() {});
+        }
       }
     });
     super.initState();
@@ -46,35 +43,37 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
       body: isInternetConnectionAvailable
           ? Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: Lottie.asset(
-                'assets/animations/splash_screen.json',
-                controller: animationController,
-                onLoaded: (onLoad) {
-                  animationController.forward();
-                },
-                animate: true,
-                repeat: false,
-                fit: BoxFit.fill,
+              color: Color(0xFF454561),
+              child: Center(
+                child: Lottie.asset(
+                  'assets/animations/app-logo.json',
+                  controller: animationController,
+                  onLoaded: (onLoad) {
+                    animationController.forward();
+                  },
+                  animate: true,
+                  repeat: false,
+                  fit: BoxFit.fill,
+                ),
               ))
           : Container(
-            color: Colors.blueAccent,
-            child: Center(
+              color: Colors.blueAccent,
+              child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text('No internet connection'),
                     IconButton(
                         icon: Icon(Icons.replay_outlined),
-                        onPressed: () async{
-                          isInternetConnectionAvailable = await BasicUtils.checkInternetConnection();
+                        onPressed: () async {
+                          isInternetConnectionAvailable =
+                              await BasicUtils.checkInternetConnection();
                           setState(() {});
                         })
                   ],
                 ),
               ),
-          ),
+            ),
     );
   }
 }
