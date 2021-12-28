@@ -1,5 +1,6 @@
 import 'package:cosmox/home.dart';
 import 'package:cosmox/utils/BasicUtils.dart';
+import 'package:cosmox/utils/globalUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -22,6 +23,7 @@ class _SplashScreenState extends State<SplashScreen>
       if (status == AnimationStatus.completed) {
         animationController.reset();
         if (isInternetConnectionAvailable) {
+          await openDb();
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) {
             return Home();

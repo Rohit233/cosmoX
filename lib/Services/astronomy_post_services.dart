@@ -2,10 +2,21 @@ import 'dart:convert';
 import 'package:cosmox/API/api.dart';
 import 'package:cosmox/models/astronomy_post_model.dart';
 import 'package:cosmox/utils/DateTimeUtils.dart';
+import 'package:cosmox/utils/globalUtils.dart';
 import 'package:http/http.dart' as http;
 
 class AstronomyPostServices {
   static late int lastFetchPostDate = -1;
+
+  static const String TABLENAME = 'astronomyPost';
+  static const String ID = 'id';
+  static const String DATE = 'date';
+  static const String EXPLANATION = 'explanation';
+  static const String HD_URL = 'hdUrl';
+  static const String MEDIA_TYPE = 'media_type';
+  static const String TITLE = 'title';
+  static const String URL = 'url';
+
 
   Future<List<AstronomyPostModel>?> getPostWhileScrolling() async {
     List<AstronomyPostModel> astronomyPost = [];
@@ -16,6 +27,26 @@ class AstronomyPostServices {
     if (lastFetchPostDate == -1) {
       endDate = DateTimeUtils.getCurrentEpoch();
       String formatedEndDate = DateTimeUtils.getFormatedDateFromEpoch(endDate);
+      try{
+        await db.execute('''
+         create table $TABLENAME(
+           id integer primary key autoincrement,
+           $DATE text,
+           $EXPLANATION text,
+           $HD_URL text,
+           $MEDIA_TYPE text,
+           $TITLE text,
+           $URL text
+         )
+        ''');
+      } catch(e){
+
+      }
+      astronomyPost = await getAstronomyPostFromLocalDb();
+      if(astronomyPost.isNotEmpty && astronomyPost[0].date == DateTimeUtils.getFormatedDateFromEpoch(DateTimeUtils.getCurrentEpoch())){
+        lastFetchPostDate = startDate;
+        return astronomyPost;
+      }
       http.Response response = await http.get(Uri.parse(Api
               .astronomyPictureOfDayApi +
           '&start_date=$formatedStartDate&end_date=$formatedEndDate&thumbs=True'));
@@ -25,6 +56,10 @@ class AstronomyPostServices {
           astronomyPost.add(AstronomyPostModel().getAstronomyPostObject(i));
         }
         lastFetchPostDate = startDate;
+        if(astronomyPost.isNotEmpty){
+         await deleteAllAstronomyPostFromLocalDb();
+        }
+        await insetAstronomyPostInLocalDb(List.from(astronomyPost.reversed));
         return List.from(astronomyPost.reversed);
       }
     } else {
@@ -48,4 +83,33 @@ class AstronomyPostServices {
     }
     return [];
   }
+
+
+  Future insetAstronomyPostInLocalDb(List<AstronomyPostModel> listAstronomyPostModel)async{
+     for(AstronomyPostModel astronomyPostModel in listAstronomyPostModel ){
+       await db.insert(TABLENAME, {
+       DATE: astronomyPostModel.date,
+       EXPLANATION: astronomyPostModel.explanation,
+       HD_URL: astronomyPostModel.hdUrl,
+       MEDIA_TYPE: astronomyPostModel.mediaType,
+       TITLE: astronomyPostModel.title,
+       URL: astronomyPostModel.url
+      });
+     }
+  }
+  Future deleteAllAstronomyPostFromLocalDb()async{
+    await db.delete(TABLENAME);
+  }
+  Future<List<AstronomyPostModel>> getAstronomyPostFromLocalDb()async{
+     List<AstronomyPostModel> listAstronomyPostModel = [];
+     List<Map> response = await db.query(TABLENAME,
+       columns: [ID,DATE,EXPLANATION,HD_URL,MEDIA_TYPE,TITLE,URL]
+     );
+     for(var astronomyPostData in response){
+       listAstronomyPostModel.add(AstronomyPostModel().getAstronomyPostObject(astronomyPostData));
+     }
+
+     return listAstronomyPostModel;
+  }
+
 }
