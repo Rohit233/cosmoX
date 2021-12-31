@@ -56,9 +56,7 @@ class AstronomyPostServices {
           astronomyPost.add(AstronomyPostModel().getAstronomyPostObject(i));
         }
         lastFetchPostDate = startDate;
-        if(astronomyPost.isNotEmpty){
          await deleteAllAstronomyPostFromLocalDb();
-        }
         await insetAstronomyPostInLocalDb(List.from(astronomyPost.reversed));
         return List.from(astronomyPost.reversed);
       }
@@ -98,7 +96,12 @@ class AstronomyPostServices {
      }
   }
   Future deleteAllAstronomyPostFromLocalDb()async{
-    await db.delete(TABLENAME);
+    try{
+      await db.delete(TABLENAME);
+    }
+    catch(e){
+
+    }
   }
   Future<List<AstronomyPostModel>> getAstronomyPostFromLocalDb()async{
      List<AstronomyPostModel> listAstronomyPostModel = [];

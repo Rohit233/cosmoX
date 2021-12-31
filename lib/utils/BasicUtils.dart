@@ -16,14 +16,22 @@ class BasicUtils {
     return false;
   }
 
-  static openUrl(String url) async {
-    await launch(
+  static openUrl(String url,{bool openInApp = true}) async {
+   if(openInApp){
+     await launch(
       url,
       enableDomStorage: true,
       forceSafariVC: true,
       forceWebView: true,
       enableJavaScript: true,
     );
+   }
+   else{
+     await launch(
+      url,
+    );
+   }
+    
   }
 
   static Future openBottomSheet(

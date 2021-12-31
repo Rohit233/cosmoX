@@ -67,7 +67,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                                   FontAwesomeIcons.github),
                                               onPressed: () {
                                                 BasicUtils.openUrl(
-                                                    'https://github.com/Rohit233');
+                                                    'https://github.com/Rohit233',openInApp: false);
                                               }),
                                         ),
                                         Container(
@@ -78,7 +78,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                                   FontAwesomeIcons.linkedin),
                                               onPressed: () {
                                                 BasicUtils.openUrl(
-                                                    'https://www.linkedin.com/in/rohit-lokhande-3b15ab181');
+                                                    'https://www.linkedin.com/in/rohit-lokhande-3b15ab181',openInApp: false);
                                               }),
                                         ),
                                         Container(
@@ -89,7 +89,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                                   FontAwesomeIcons.instagram),
                                               onPressed: () {
                                                 BasicUtils.openUrl(
-                                                    'https://instagram.com/rohitlokhande_23?utm_medium=copy_link');
+                                                    'https://instagram.com/rohitlokhande_23?utm_medium=copy_link',openInApp: false);
                                               }),
                                         ),
                                       ],
@@ -123,7 +123,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                                   FontAwesomeIcons.github),
                                               onPressed: () {
                                                 BasicUtils.openUrl(
-                                                    'https://github.com/yashmasalge');
+                                                    'https://github.com/yashmasalge',openInApp: false);
                                               }),
                                         ),
                                         Container(
@@ -134,7 +134,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                                   FontAwesomeIcons.linkedin),
                                               onPressed: () {
                                                 BasicUtils.openUrl(
-                                                    'https://www.linkedin.com/in/yashmasalge/');
+                                                    'https://www.linkedin.com/in/yashmasalge/',openInApp: false);
                                               }),
                                         ),
                                         Container(
@@ -145,7 +145,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                                   FontAwesomeIcons.instagram),
                                               onPressed: () {
                                                 BasicUtils.openUrl(
-                                                    'https://instagram.com/itami_uzumaki_?utm_medium=copy_link');
+                                                    'https://instagram.com/itami_uzumaki_?utm_medium=copy_link',openInApp: false);
                                               }),
                                         ),
                                       ],
@@ -154,7 +154,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                   InkWell(
                                     onTap: () {
                                       BasicUtils.openUrl(
-                                          'https://github.com/Rohit233/cosmoX');
+                                          'https://github.com/Rohit233/cosmoX',openInApp: false);
                                     },
                                     child: Container(
                                         padding: EdgeInsets.only(
@@ -169,7 +169,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                         child: TextButton.icon(
                                             onPressed: () {
                                               BasicUtils.openUrl(
-                                                  'https://github.com/Rohit233/cosmoX');
+                                                  'https://github.com/Rohit233/cosmoX',openInApp: false);
                                             },
                                             icon:
                                                 FaIcon(FontAwesomeIcons.github),
