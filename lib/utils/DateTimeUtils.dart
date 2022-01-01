@@ -5,7 +5,7 @@ class DateTimeUtils{
   }
   static String getFormatedDateFromEpoch(int epochTimeStamp){
     DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(epochTimeStamp);
-    return dateTime.year.toString()+'-'+dateTime.month.toString()+'-'+dateTime.day.toString();
+    return dateTime.year.toString()+'-'+ '${dateTime.month < 10 ? 0.toString() + dateTime.month.toString() : dateTime.month.toString()}'+'-'+'${dateTime.day < 10 ? 0.toString() + dateTime.day.toString() : dateTime.day.toString()}';
   }
   static String getFormatedTimeFromEpoch(int epochTimeStamp){
     DateTime dateTime = DateTime.fromMicrosecondsSinceEpoch(epochTimeStamp);

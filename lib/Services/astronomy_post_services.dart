@@ -57,8 +57,14 @@ class AstronomyPostServices {
         }
         lastFetchPostDate = startDate;
          await deleteAllAstronomyPostFromLocalDb();
-        await insetAstronomyPostInLocalDb(List.from(astronomyPost.reversed));
+         if(astronomyPost[astronomyPost.length-1].date == DateTimeUtils.getFormatedDateFromEpoch(DateTimeUtils.getCurrentEpoch())){
+            await insetAstronomyPostInLocalDb(List.from(astronomyPost.reversed));
+         }
+       
         return List.from(astronomyPost.reversed);
+      }
+      else if(response.statusCode == 400){
+        return await requestAfterDateError(formatedStartDate,DateTimeUtils.getFormatedDateFromEpoch(endDate-86400000),startDate);
       }
     } else {
       int startDate = lastFetchPostDate - (86400000 * 5);
@@ -77,6 +83,9 @@ class AstronomyPostServices {
         }
         lastFetchPostDate = startDate;
         return List.from(astronomyPost.reversed);
+      }
+      else if(response.statusCode == 400){
+        return await requestAfterDateError(formatedStartDate,DateTimeUtils.getFormatedDateFromEpoch(endDate-86400000),startDate);
       }
     }
     return [];
@@ -103,6 +112,20 @@ class AstronomyPostServices {
 
     }
   }
+
+  Future<List<AstronomyPostModel>> requestAfterDateError(String formatedStartDate,String formatedEndDate,int startDate)async{
+    List<AstronomyPostModel> astronomyPost = [];
+    http.Response response = await http.get(Uri.parse(Api
+              .astronomyPictureOfDayApi +
+          '&start_date=$formatedStartDate&end_date=$formatedEndDate&thumbs=True'));
+     var jsonResponse = jsonDecode(response.body);
+        for (var i in jsonResponse) {
+          astronomyPost.add(AstronomyPostModel().getAstronomyPostObject(i));
+        }
+        lastFetchPostDate = startDate;
+        return List.from(astronomyPost.reversed);
+  }
+
   Future<List<AstronomyPostModel>> getAstronomyPostFromLocalDb()async{
      List<AstronomyPostModel> listAstronomyPostModel = [];
      List<Map> response = await db.query(TABLENAME,
