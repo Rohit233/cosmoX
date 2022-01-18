@@ -1,7 +1,9 @@
 # cosmox
 
 Its a Mobile app Which gives Space related news and info.
-![WhatsApp Image 2022-01-13 at 10 06 13 AM](https://user-images.githubusercontent.com/43448295/149907422-31eae46e-dace-4beb-9925-ed0398d5ccae.jpeg)
+
+![WhatsApp Image 2022-01-13 at 10 06 13 AM](https://user-images.githubusercontent.com/43448295/149914826-330f9e49-f4e6-4d50-904d-ceda54f670f0.jpeg)
+
 
 Play Store Link: https://play.google.com/store/apps/details?id=com.coder.cosmox
 
@@ -25,10 +27,14 @@ For using this Repo:
      - reportApi = 'https://api.spaceflightnewsapi.net/v3/reports';
 
 
- ScreenShot of App:
-    - ![Screenshot_1639401337](https://user-images.githubusercontent.com/43448295/149912407-18aaaccb-8071-4fef-9b09-9f931f3767b2.png)
-    - ![Screenshot_1639401346](https://user-images.githubusercontent.com/43448295/149912575-5734a975-ad7a-4d4a-977c-cbc94e5b6c93.png)
-    - ![Screenshot_1639401350](https://user-images.githubusercontent.com/43448295/149912617-162867f4-98ba-456a-8f9d-dcd66d7681fa.png)
-    - ![Screenshot_1639401350](https://user-images.githubusercontent.com/43448295/149912662-5c34be7d-96ec-4f74-958b-9fc618d66297.png)
-    - ![Screenshot_1639401357](https://user-images.githubusercontent.com/43448295/149912745-3ea830d2-fd57-4897-a7a7-418eb4cde06e.png)
-    - ![Screenshot_1639401363](https://user-images.githubusercontent.com/43448295/149912823-70507366-730d-4bd0-962b-0bbf85f638f7.png)
+      ![Screenshot_1639401337 (1)](https://user-images.githubusercontent.com/43448295/149914118-46e3b6e3-fdf8-443a-b71a-2fce99a7907e.png)
+      ![Screenshot_1639401346](https://user-images.githubusercontent.com/43448295/149914706-2a0a9094-4319-492f-a316-6b69aae50d56.png)
+      ![Screenshot_1639401350](https://user-images.githubusercontent.com/43448295/149914741-fb12b520-0dae-4be3-a71a-059972325767.png)
+      ![Screenshot_1639401363](https://user-images.githubusercontent.com/43448295/149914771-1effebd0-d0c8-4b3a-b2a8-6c5cda08baf3.png)
+   
+   
+     ---
+   
+
+      https://user-images.githubusercontent.com/43448295/149916724-ae8f729d-ad6a-4850-8814-481f32498309.mp4
+
