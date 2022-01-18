@@ -1,6 +1,6 @@
-# cosmox
+# Cosmox
 
-Its a Mobile app Which gives Space related news and info.
+## Explore the Wonders of Space
 
 ![WhatsApp Image 2022-01-13 at 10 06 13 AM](https://user-images.githubusercontent.com/43448295/149914826-330f9e49-f4e6-4d50-904d-ceda54f670f0.jpeg)
 
