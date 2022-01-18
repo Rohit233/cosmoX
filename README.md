@@ -16,7 +16,7 @@ Api We used:
 For using this Repo:
   - Create .env file in root folder of project
   -  Add this fields in that file
-     - astronomyPictureOfDayApi = 'https://api.nasa.gov/planetary/apod?api_key=<Your Api key >; 
+     - astronomyPictureOfDayApi = 'https://api.nasa.gov/planetary/apod?api_key= Your Api key; 
      - spacexLaunchesApi = 'https://api.spacexdata.com/v4/launches';
      - spaceXLaunchPadApi = 'https://api.spacexdata.com/v4/launchpads';
      - spaceXRocketApi = 'https://api.spacexdata.com/v4/rockets';
